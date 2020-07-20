@@ -62,5 +62,5 @@ function updateMovement() {
 
 
 function plotMovement() {
-  plotGraph(height * 0.2,movementPoints,"General Movement:")
+  plotGraph(height * 0.2,movementPoints,"General Movement:",MOVE_APATHY_THRESHOLD)
 }

@@ -14,45 +14,12 @@ function calibrationMessage1() {
     $('#msgBtn2').on('click',() => {
         hideMsg()
         hideCalibrationButtons();
-        startPlottingMessage()
-    })
-}
-
-function calibrationMessage2(){
-    showMsg({
-        title:"Calculating measurement",
-        subtitle:"Please don't move your mouse & stare at the middle dot for the next 5 seconds. This will allow us to calculate the accuracy of our predictions.",
-        btn1:'OK, GO AHEAD',
-    })
-    $('#msgBtn1').off('click')
-    $('#msgBtn1').on('click',() => {
-        hideMsg()
-        measureCalibration()
-    })
-}
-
-function calibrationMessage3(precision_measurement){
-    showMsg({
-        title:"Wonderful News",
-        subtitle:"Your accuracy measure is " + precision_measurement + "%",
-        btn1:'GOOD',
-        btn2:'AGAIN'
-    })
-    $('#msgBtn1').off('click')
-    $('#msgBtn1').on('click',() => {
-        hideMsg()
-        hideCalibrationButtons();
         forgetAboutMeMessage()
-    })
-    $('#msgBtn2').off('click')
-    $('#msgBtn2').on('click',() => {
-        hideMsg()
-        resetCalibrationPoints();
-        ShowCalibrationPoint();
     })
 }
 
 function forgetAboutMeMessage(){
+    startGatheringData()
     showMsg({
         title:"Good",
         subtitle:"Now, forget about me, and go back to work. I will study you for a while.",

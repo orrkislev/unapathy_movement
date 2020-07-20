@@ -73,5 +73,5 @@ function updateGazeAndNose() {
 }
 
 function plotGaze() {
-	plotGraph(height * 0.5,gazePoints,"Eye Gaze:")
+	plotGraph(height * 0.5,gazePoints,"Eye Gaze:",GAZE_APATHY_THRESHOLD)
 }

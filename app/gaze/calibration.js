@@ -19,24 +19,10 @@ $(".Calibration").click(function () {
 
   if (PointCalibrate >= 9) { // last point is calibrated
     hideCalibrationButtons()
-    calibrationMessage2()
+    forgetAboutMeMessage()
   }
 });
 
-function measureCalibration(){
-  hideCalibrationButtons()
-  $("#Pt5").show();
-  store_points_variable();  
-  console.log('a')
-  setTimeout(() => {
-    console.log('b')
-    stop_storing_points_variable(); // stop storing the prediction points
-    var past50 = get_points() // retrieve the stored points
-    var precision_measurement = calculatePrecision(past50);
-    hideCalibrationButtons()
-    calibrationMessage3(precision_measurement)
-  }, 5000);
-}
 
 
 

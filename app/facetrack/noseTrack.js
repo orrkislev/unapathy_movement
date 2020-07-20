@@ -20,6 +20,6 @@ function updateNose(nosePosition) {
 
 
 function plotNose() {
-    plotGraph(height * 0.35,facePoints,"Head Position:")
+    plotGraph(height * 0.35,facePoints,"Head Position:",NOSE_APATHY_THRESHOLD)
 }
 
