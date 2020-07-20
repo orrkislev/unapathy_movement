@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Total Analysis</title>
+
+  <link rel="stylesheet" href="./gaze/style.css">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./gaze/bootstrap.min.css">
+
+  <script src="../libraries/webgazer.js" type="text/javascript"></script>
+
+  <script src="../libraries/p5.js"></script>
+  <script src="../libraries/p5.dom.js"></script>
+  <script src="../libraries/lodash.min.js"></script>
+  <script src="../libraries/ml5.min.js"></script>
+
+  <script src="../libraries/jquery.min.js"></script>
+  <script src="../libraries/sweetalert.min.js"></script>
+  <script src="../libraries/Graph.js"></script>
+  <script src="../libraries/flow.js"></script>
+</head>
+
+<body>
+
+  <!-- Calibration points -->
+  <div class="calibrationDiv">
+    <input type="button" class="Calibration" id="Pt1" style="display: none;"></input>
+    <input type="button" class="Calibration" id="Pt2" style="display: none;"></input>
+    <input type="button" class="Calibration" id="Pt3" style="display: none;"></input>
+    <input type="button" class="Calibration" id="Pt4" style="display: none;"></input>
+    <input type="button" class="Calibration" id="Pt5" style="display: none;"></input>
+    <input type="button" class="Calibration" id="Pt6" style="display: none;"></input>
+    <input type="button" class="Calibration" id="Pt7" style="display: none;"></input>
+    <input type="button" class="Calibration" id="Pt8" style="display: none;"></input>
+    <input type="button" class="Calibration" id="Pt9" style="display: none;"></input>
+  </div>
+
+  <div id='msg'>
+    <div id='msgTitle'></div>
+    <div id='msgsubtitle'>Please allow the use of your camera</div>
+    <div id='msgBtn1'></div>
+    <div id='msgBtn2'></div>
+  </div>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="./gaze/calibration.js"></script>
+  <script src="./gaze/precision_calculation.js"></script>
+  <script src="./gaze/precision_store_points.js"></script>
+
+  <script src="./gaze/gaze.js"></script>
+  <script src="./motion/motion.js"></script>
+  <script src="./facetrack/noseTrack.js"></script>
+
+  <script src="../libraries/bootstrap.min.js"></script>
+
+  <script src="./msgManager.js"></script>
+  <script src="./sketch.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+#msg {
+    z-index: 1000;
+    position: fixed;
+    align-items: center;
+    top:50%;
+    transform: translate(-50%,-50%);
+    left:50%;
+    color:rgba(255,0,255,1);
+    font-weight: 500;
+}
+
+#msgTitle {
+    font-size: 2em;
+}
+
+#msgsubtitle {
+    font-size: 1em;
+}
+
+#msgBtn1{
+    float:right;
+}
+
+#msgBtn2{
+    float:left;
+}
