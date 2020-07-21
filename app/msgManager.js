@@ -47,6 +47,8 @@ function startPlottingMessage(){
 
 
 function passiveTooLong(){
+    console.log('passiveTooLong')
+    $('#msg').css('color','black')
     showMsg({
         title:"You have been passive for "+str(MINUTES_TO_VIDEO)+" min, let’s move!",
         subtitle:"Take a moment to learn to juggle",

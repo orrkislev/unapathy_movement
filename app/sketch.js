@@ -59,11 +59,15 @@ function draw() {
 		text(passiveString, width * 0.1, height * 0.65 + 20)
 	}
 	if (measuring) {
-		if (gazePoints[29] < GAZE_APATHY_THRESHOLD &&
-			facePoints[29] < NOSE_APATHY_THRESHOLD &&
-			movementPoints[29] < MOVE_APATHY_THRESHOLD) {
-			apathyLevel += deltaTime / 1000
-			if (apathyLevel > MINUTES_TO_VIDEO * 60) passiveTooLong()
+		if (apathyLevel < MINUTES_TO_VIDEO * 60) {
+			if (gazePoints[29] < GAZE_APATHY_THRESHOLD &&
+				facePoints[29] < NOSE_APATHY_THRESHOLD &&
+				movementPoints[29] < MOVE_APATHY_THRESHOLD) {
+				apathyLevel += deltaTime / 1000
+				if (apathyLevel > MINUTES_TO_VIDEO * 60) {
+					passiveTooLong()
+				}
+			}
 		}
 		noStroke()
 		fill(255, 0, 255, 200)
@@ -71,7 +75,7 @@ function draw() {
 		rect(0, height - height * apathyPercentage, width, height * apathyPercentage)
 	}
 
-	if (practicing){
+	if (practicing) {
 		practice()
 	}
 
@@ -79,6 +83,6 @@ function draw() {
 }
 
 function keyPressed() {
-	if (keyCode == ENTER) opticalFlow = opticalFlow
+	if (keyCode == ENTER) opticalFlow = !opticalFlow
 }
 
