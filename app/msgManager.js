@@ -46,6 +46,44 @@ function startPlottingMessage(){
 }
 
 
+function passiveTooLong(){
+    showMsg({
+        title:"You have been passive for "+str(MINUTES_TO_VIDEO)+" min, let’s move!",
+        subtitle:"Take a moment to learn to juggle",
+        btn1:'PLAY THE VIDEO'
+    })
+    $('#msgBtn1').off('click')
+    $('#msgBtn1').on('click',() => {
+        console.log("play the video")
+        hideMsg()
+        stopGatherindData()
+        webgazer.pause()
+        $('#tutorialVideo1').show()
+        endTutorial1()
+    })
+}
+
+function endTutorial1(){
+    showMsg({
+        title:"Now, let's practice!",
+        subtitle:"or learn to juggle with 2 balls",
+        btn1:'PRACTICE',
+        btn2:'LEARN MORE'
+    })
+    $('#msgBtn1').off('click')
+    $('#msgBtn1').on('click',() => {
+        hideMsg()
+        $('#tutorialVideo1').hide()
+        startPracticing()
+    })
+    $('#msgBtn2').off('click')
+    $('#msgBtn2').on('click',() => {
+        hideMsg()
+        $('#tutorialVideo1').hide()
+        $('#tutorialVideo2').show()
+    })
+}
+
 
 
 
