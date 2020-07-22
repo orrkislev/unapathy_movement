@@ -1,34 +1,49 @@
-const practiceFunctions = {
-    'first':1
-}
-let curPractice = practiceFunctions.first
+let captureRatioForPractice = null
+const targetRadius = 40;
+let practiceThreshold = 20
 
-function practice(){
-    if (curPractice == practiceFunctions.first) practice1()
+function initPractice(ballNum) {
+    
 }
 
-function practice1() {
-    const ratio = (width * 0.6 / motionCapture.width)
-    const target = createVector(360, 50)
-    const targetRadius = 20;
+function practice() {
+    if (captureRatioForPractice==null) captureRatioForPractice = (width * 0.6 / motionCapture.width)
     scale(-1, 1)
-    image(motionCapture, -width * 0.2, height * 0.2, -motionCapture.width * ratio, motionCapture.height * ratio)
+    image(motionCapture,
+        -width * 0.2, height * 0.2,
+        -motionCapture.width * captureRatioForPractice,
+        motionCapture.height * captureRatioForPractice)
     resetMatrix()
     updateMovement()
-    if (flow.flow) {
-        let totalFlow = 0
-        flow.flow.zones.forEach((zone, index) => {
-            if (abs(zone.x - target.x) < targetRadius * ratio && abs(zone.y - target.y) < targetRadius * ratio) {
-                totalFlow += sqrt(zone.u * zone.u + zone.v * zone.v)
-            }
-        })
-        if (totalFlow > 20) {
-            noStroke()
-            fill(255, 0, 255)
-        } else {
-            noFill()
-            stroke(255, 0, 255)
-        }
-        circle(width * 0.2 + (motionCapture.width - target.x) * ratio, height * 0.2 + target.y * ratio, targetRadius)
-    }
+
+    checkTarget()
 }
+
+function checkTarget() {
+    [createVector(160, 50), createVector(560, 50)].forEach(target => {
+        if (flow.flow) {
+            let totalFlow = 0
+            flow.flow.zones.forEach(zone => {
+                if (abs(zone.x - target.x) < targetRadius * captureRatioForPractice &&
+                    abs(zone.y - target.y) < targetRadius * captureRatioForPractice) {
+                    totalFlow += sqrt(zone.u * zone.u + zone.v * zone.v)
+                }
+            })
+            if (totalFlow > practiceThreshold) {
+                onlyFill()
+            } else {
+                onlyStroke()
+            }
+            circle(width * 0.2 + (motionCapture.width - target.x) * captureRatioForPractice,
+                height * 0.2 + target.y * captureRatioForPractice,
+                targetRadius)
+        }
+    })
+}
+
+
+$('#donePracticeBtn').on('click',() => {
+    $('#donePractice').hide()
+    practicing = false
+    donePracticeMessage()
+})

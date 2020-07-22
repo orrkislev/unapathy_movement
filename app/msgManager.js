@@ -41,6 +41,7 @@ function startPlottingMessage(){
     $('#msgBtn1').off('click')
     $('#msgBtn1').on('click',() => {
         hideMsg()
+        learning = false
 		startPlotting()
     })
 }
@@ -58,10 +59,11 @@ function passiveTooLong(){
     $('#msgBtn1').on('click',() => {
         console.log("play the video")
         hideMsg()
-        stopGatherindData()
-        webgazer.pause()
+        stopAll()
+        pauseGaze()
         $('#tutorialVideo1').show()
-        endTutorial1()
+        startViewing()
+        $('#msg').css('color','rgba(255,0,255,1)')
     })
 }
 
@@ -75,19 +77,50 @@ function endTutorial1(){
     $('#msgBtn1').off('click')
     $('#msgBtn1').on('click',() => {
         hideMsg()
-        $('#tutorialVideo1').hide()
-        startPracticing()
+        practiceMessage()
     })
     $('#msgBtn2').off('click')
     $('#msgBtn2').on('click',() => {
         hideMsg()
-        $('#tutorialVideo1').hide()
-        $('#tutorialVideo2').show()
+        practiceMessage()
     })
 }
 
 
+function practiceMessage(){
+    startPracticing()
+    showMsg({
+        title:"Great",
+        subtitle:"practice as much as you need in order to feel activated",
+        btn1:'START PRACTICING',
+    })
+    $('#msgBtn1').off('click')
+    $('#msgBtn1').on('click',() => {
+        hideMsg()
+        $('#donePractice').show()
+    })
+}
 
+function donePracticeMessage(){
+    showMsg({
+        title:"",
+        subtitle:"",
+        btn1:'CONTINUE WORKING',
+        btn1:'GO HOME',
+    })
+    $('#msgBtn1').off('click')
+    $('#msgBtn1').on('click',() => {
+        hideMsg()
+        resetTimers()
+        startPlotting()
+    })
+    $('#msgBtn2').off('click')
+    $('#msgBtn2').on('click',() => {
+        hideMsg()
+        resetTimers()
+        startPlotting()
+    })
+}
 
 
 

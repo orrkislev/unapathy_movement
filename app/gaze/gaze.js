@@ -1,7 +1,7 @@
 var REFRESH_EVERY = 0; // 0 is disabled
-var MARKER_SIZE = 0; // 0 is disabled
+var MARKER_SIZE = 15; // 0 is disabled
 
-var xprediction, yprediction;
+var xprediction=null, yprediction=null;
 var prevXprediction=null, prevYprediction=null;
 var predictionTstamp = -1;
 var prevPredictionTstamp = -1;
@@ -19,7 +19,6 @@ window.onbeforeunload = function () {
 function webgazerSetup() {
 	webgazer.setRegression('ridge')
 		.setTracker('TFFacemesh')
-		.showPredictionPoints(false)
 		.showVideo(false)
 		.showFaceOverlay(false)
 		.showFaceFeedbackBox(false)
@@ -31,6 +30,7 @@ function webgazerSetup() {
 			yprediction = data.y; //these y coordinates are relative to the viewport
 			predictionTstamp = millis();
 		}).begin();
+	webgazer.showPredictionPoints(false)
 	setTimeout(checkIfReady, 100);
 }
 
@@ -45,6 +45,11 @@ function checkIfReady() {
 	}
 }
 
+function pauseGaze(){
+	webgazer.pause()
+	xprediction = null
+	yprediction = null
+}
 
 
 var GAZE_SPEED_SOOTHING = 0.5;
@@ -56,20 +61,18 @@ function updateGazeAndNose() {
 		noStroke();
 		fill(255, 0, 255);
 		ellipse(xprediction, yprediction, MARKER_SIZE, MARKER_SIZE);
-		if (prevXprediction == null && prevYprediction == null){
-			prevXprediction = xprediction;
-			prevYprediction = yprediction;
-		} else if (xprediction != prevXprediction || yprediction != prevYprediction) {
-			const gazeSpeed = dist(prevXprediction, prevYprediction, xprediction, yprediction)
-			prevXprediction = xprediction;
-			prevYprediction = yprediction;
+		if (xprediction != prevXprediction || yprediction != prevYprediction) {
+			const gazeSpeed = dist(prevXprediction, prevYprediction, xprediction, yprediction)	
 			avgGazeSpeed = round(GAZE_SPEED_SOOTHING * avgGazeSpeed + (1.0 - GAZE_SPEED_SOOTHING) * gazeSpeed);
 			gazeMaxSpeed = Math.max(gazeMaxSpeed, avgGazeSpeed)
 			gazePoints.push(avgGazeSpeed / gazeMaxSpeed)
 			if (gazePoints.length > 30) gazePoints.splice(0, 1)
 		}
+		prevXprediction = xprediction;
+		prevYprediction = yprediction;
+		if (webgazer.getTracker().getPositions().length>=2)
+			updateNose(webgazer.getTracker().getPositions()[1])
 	}
-	updateNose(webgazer.getTracker().getPositions()[1])
 }
 
 function plotGaze() {

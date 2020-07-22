@@ -45170,7 +45170,7 @@ function store_points(x, y, k) {
                 // GazeDot
                 if (!webgazer.params.showGazeDot) {
                     webgazer.params.showGazeDot = true;
-                    gazeDot.style.display = 'block';
+                    gazeDot.style.display = 'none';
                 }
                 gazeDot.style.transform = 'translate3d(' + pred.x + 'px,' + pred.y + 'px,0)';
             } else {
