@@ -8,6 +8,7 @@ let apathyLevel = 0;
 let startTime
 
 function setup() {
+	Notification.requestPermission();
 	print("start setup")
 	resizeCanvas(window.innerWidth, window.innerHeight)
 	webgazerSetup();
@@ -54,6 +55,7 @@ function draw() {
 				movementPoints[movementPoints.length - 1] < MOVE_APATHY_THRESHOLD) {
 				apathyLevel += deltaTime / 1000
 				if (apathyLevel > MINUTES_TO_VIDEO * 60) {
+					new Notification('You are passive', {body:'see what you can do'});
 					passiveTooLong()
 				}
 			}
