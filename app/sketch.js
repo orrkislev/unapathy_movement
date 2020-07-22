@@ -2,7 +2,7 @@ let GAZE_APATHY_THRESHOLD = 0.4
 let NOSE_APATHY_THRESHOLD = 0.5
 let MOVE_APATHY_THRESHOLD = 0.8
 
-let MINUTES_TO_VIDEO = 30
+let MINUTES_TO_VIDEO = 1
 let apathyLevel = 0;
 
 let startTime
@@ -15,17 +15,17 @@ function setup() {
 	motionSetup();
 }
 
-let plotting = false
-let gathering = true
-let measuring = false
-let practicing = false
-let learning = true
-let viewing = false
+let plotting = false // false
+let gathering = true // true
+let measuring = false // false
+let practicing = false // false
+let learning = true // true
+let viewing = false // false
 
 function startPlotting() { plotting = true; measuring = true }
 function startGatheringData() { gathering = true; startTime = new Date() }
-function stopAll() { gathering = false; plotting = false; measuring = false }
-function startPracticing() { practicing = true; }
+function stopPlotting() { plotting = false }
+function startPracticing() { practicing = true; webgazer.begin() }
 
 function draw() {
 	background(255)
@@ -66,11 +66,12 @@ function draw() {
 		rect(0, height - height * apathyPercentage, width, height * apathyPercentage)
 	}
 	if (viewing) {
-		if (videoPlayer.currentTime()>30){
+		if (videoPlayer.currentTime()>20 && videoPlayer.remainingTime()<1){
 			videoPlayer.pause()
+			videoPlayer.currentTime(2)
 			viewing = false
 			$('#videoPlayer').hide()
-			endTutorial1()
+			endVideoMessage(currVideoIndex)
 		}
 	}
 	if (practicing) {
@@ -95,10 +96,28 @@ function onlyStroke() {
 }
 
 let videoPlayer
-function startViewing() {
+const youtubeLinks = ['',
+	'https://www.youtube.com/watch?v=Br1isK0b17s',
+	'https://www.youtube.com/watch?v=uaG0xreSyls',
+	'https://www.youtube.com/watch?v=0awTfH62ar8'
+]
+let currVideoIndex
+function startVideo(numBalls) {
 	$('#videoPlayer').show()
 	videoPlayer = videojs('videoPlayer')
+	videoPlayer.src({
+		type: "video/youtube",
+        src: youtubeLinks[numBalls],
+        youtube: {
+          "ytControls": 2,
+          "modestbranding":"1",
+          "fs":"0",
+          "showinfo":"0"
+        }
+	})
+	videoPlayer.currentTime(0);
 	videoPlayer.play()
+	currVideoIndex = numBalls
 	viewing = true
 }
 

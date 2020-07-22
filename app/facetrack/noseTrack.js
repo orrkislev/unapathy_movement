@@ -10,9 +10,9 @@ function updateNose(nosePosition) {
     if (prevNosePosition) {
       const noseSpeed = dist(nosePosition[0], nosePosition[1], prevNosePosition[0], prevNosePosition[1])
       if (typeof (noseSpeed == 'number')) {
-        avgFaceSpeed = round(NOSE_SPEED_SOOTHING * avgFaceSpeed + (1.0 - NOSE_SPEED_SOOTHING) * noseSpeed);
+        avgFaceSpeed = NOSE_SPEED_SOOTHING * avgFaceSpeed + (1.0 - NOSE_SPEED_SOOTHING) * noseSpeed
+        faceMaxSpeed = lerp(faceMaxSpeed,avgFaceSpeed,0.01)
         faceMaxSpeed = Math.max(faceMaxSpeed, avgFaceSpeed)
-        // facePoints.push(avgFaceSpeed / faceMaxSpeed)
         facePoints.push(avgFaceSpeed)
         if (facePoints.length > 30) facePoints.splice(0, 1)
       }

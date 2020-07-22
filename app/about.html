@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>UNAPATHY MOVEMENT - About</title>
+    <script src="../libraries/p5.min.js"></script>
+</head>
+
+<style>
+    body {
+        background-color: magenta;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    #container {
+        width: 60%;
+        margin: 200px auto;
+        z-index: 1;
+        font-size: 14pt;
+    }
+    #container div {
+        margin-top: 1.5em;
+    }
+    .thanks {
+        font-size: 11pt;
+    }
+    .p5Canvas{
+        z-index: -1;
+        position: absolute;
+        top:0;
+    }
+</style>
+
+<body>
+    <div id='container'>
+        <div><b><i>UN_APATHY MOVEMENT</i> is a call to move!</b></div>
+        <div>
+            This project is aiming for those who feel sometimes overwhelmed by the world around them . As volatility,
+            uncertainty, complexity and ambiguity are rising, and affecting our daily motivation to stay active, pushing
+            us
+            towards apathetic behavior, which is expressed by moments of passivity during our daily interaction with
+            computers. A work session of 3 hours in front of the screen is stretched and drawn into a 4-5 hours of
+            screen
+            time, as we check out our Facebook profile, watch a short Youtube, refresh the news or even move on to watch
+            a
+            full episode or two on Netflix. Is that what you aim to do with your leisure?
+        </div>
+        <div>
+            Media and technology conglomerates are designing means of hooking our passive behavior and feed us with more
+            content. <i>UN_APATHY MOVEMENT</i> is a tool for self reflection, aiming to untie these automated hooks, and
+            allowing
+            us to make sober decision of what to do with our spare time.
+        </div>
+        <div>
+            <b>How does it work?</b>
+        </div>
+        <div>
+            The tool is composed out of two actions: recognition and activation.
+            The recognition console is tracking your body, head and gaze movement using your webcam, evaluating your
+            screen
+            time and counting your passive moments.
+        </div>
+        <div>
+            As your apathy-bar reach 45 minutes of passive moments, the second action appears: It ia a call for a play.
+            You
+            are invited to learn how to juggle with 3 balls, to Hula Hoop or to slackline. Each of the activities can be
+            learned step by step. Every 45 Minutes of full apathy bar, you should move and practice as much as you need
+            to
+            in order to feel reactivated. The apathy-bar restarts.
+        </div>
+        <div>
+            <b>Physical movement_Mental Movement</b>
+        </div>
+        <div>
+            <i>UN_APATHY MOVEMENT</i> is utilizing our body learning mechanisms in order to increase general self efficacy,
+            decreasing apathetic behavior.
+            Studies point out a two way channel between body and brain regarding physical activity and mood. It is
+            studies
+            that playful Physical activity that combines the moderate acquisition of a skill is particularly effective
+            in
+            increasing general self-efficacy and thus enabling us to return to action.
+        </div>
+        <div class='thanks'>
+            <b>A project by <a href='http://www.biliregev.com/'>Bili Regev</a></b>
+        </div>
+        <div class='thanks'>
+            Mentored by <b>Saron paz</b>
+            Coded by <b>Orr Kislev and Tzvika Markfeld</b>
+        </div>
+        <div class='thanks'> 
+            Special Thanks to:
+            <b>Eldad Prywes, Aya Bentur, Mickael Wiesengrun, Tom Reznikov, Naomi Slaney, Tal Nissim, Ben Lev</b>
+        </div>
+    </div>
+
+    <script src="./plotting.js"></script>
+    <script>
+        function setup(){
+            createCanvas(500,200)
+        }
+        function draw(){
+            background(255,0,255)
+            drawLogo()
+        }
+    </script>
+</body>
+
+</html>

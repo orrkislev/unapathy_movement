@@ -41,7 +41,7 @@ const logoPosY = 40
 function drawLogo() {
 	noStroke()
 	fill(0)
-	textSize(plotSmall ? 14 : 20)
+	textSize(plotSmall ? 14 : 30)
 	textStyle(BOLD);
 	text('UN_APATHY', logoPosX, logoPosY)
 	if (frameCount % 30 == 0) changeLogo()
@@ -72,13 +72,11 @@ function plotGraph(y, graphPoints, txt, threshold, maxVal) {
 	text(txt, plotPos.x, plotPos.y - 7)
 	onlyStroke()
 	rect(plotPos.x, plotPos.y, plotSize.x, plotSize.y)
-	// dottedLine(plotPos.x, plotSize.x, plotPos.y + (1 - threshold/maxVal) * plotSize.y)
-	dottedLine(plotPos.x, plotSize.x, plotPos.y + plotSize.y/2)
+	dottedLine(plotPos.x, plotSize.x, plotPos.y + (1 - threshold/maxVal) * plotSize.y)
 	beginShape()
 	graphPoints.forEach((graphPoint, index) => {
 		const x = plotPos.x + plotSize.x * (index / 29)
-		const val = (graphPoint > threshold) ? map(graphPoint,threshold,maxVal,0.5,1) : map(graphPoint,0,threshold,0,0.5)
-		const y = plotPos.y + plotSize.y * (1 - val)
+		const y = plotPos.y + plotSize.y * (1 - graphPoint/maxVal)
 		curveVertex(x, y)
 	})
 	endShape()

@@ -45,12 +45,6 @@ function checkIfReady() {
 	}
 }
 
-function pauseGaze(){
-	webgazer.pause()
-	xprediction = null
-	yprediction = null
-}
-
 
 var GAZE_SPEED_SOOTHING = 0.5;
 let gazeMaxSpeed = 0;
@@ -63,9 +57,9 @@ function updateGazeAndNose() {
 		ellipse(xprediction, yprediction, MARKER_SIZE, MARKER_SIZE);
 		if (xprediction != prevXprediction || yprediction != prevYprediction) {
 			const gazeSpeed = dist(prevXprediction, prevYprediction, xprediction, yprediction)	
-			avgGazeSpeed = round(GAZE_SPEED_SOOTHING * avgGazeSpeed + (1.0 - GAZE_SPEED_SOOTHING) * gazeSpeed);
+			avgGazeSpeed = GAZE_SPEED_SOOTHING * avgGazeSpeed + (1.0 - GAZE_SPEED_SOOTHING) * gazeSpeed
+			gazeMaxSpeed = lerp(gazeMaxSpeed,avgGazeSpeed,0.01)
 			gazeMaxSpeed = Math.max(gazeMaxSpeed, avgGazeSpeed)
-			// gazePoints.push(avgGazeSpeed / gazeMaxSpeed)
 			gazePoints.push(avgGazeSpeed)
 			if (gazePoints.length > 30) gazePoints.splice(0, 1)
 		}
