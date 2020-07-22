@@ -12,7 +12,6 @@ function setup() {
 	resizeCanvas(window.innerWidth, window.innerHeight)
 	webgazerSetup();
 	motionSetup();
-	changeLogo()
 }
 
 let plotting = false
@@ -59,7 +58,8 @@ function draw() {
 				}
 			}
 		}
-		onlyFill()
+		noStroke()
+		fill(255, 0, 255, 165)
 		const apathyPercentage = apathyLevel / (MINUTES_TO_VIDEO * 60)
 		rect(0, height - height * apathyPercentage, width, height * apathyPercentage)
 	}
@@ -84,7 +84,7 @@ function keyPressed() {
 
 function onlyFill() {
 	noStroke()
-	fill(255, 0, 255, 200)
+	fill(255, 0, 255)
 }
 
 function onlyStroke() {

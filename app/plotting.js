@@ -48,6 +48,8 @@ function drawLogo() {
 	letters.forEach((letter, index) => {
 		text(letter, letterPlaces[index].x, letterPlaces[index].y)
 	})
+
+	// text('ABOUT', width-40-textWidth('ABOUT'), logoPosY)
 }
 
 function changeLogo() {
@@ -60,7 +62,7 @@ function changeLogo() {
 
 
 
-function plotGraph(y, graphPoints, txt, threshold) {
+function plotGraph(y, graphPoints, txt, threshold, maxVal) {
 	const plotPos =  createVector(width * 0.1, y)
 	const plotSize = (plotSmall) ? createVector(width * 0.8, height * 0.1) : createVector(width * 0.25, height * 0.1)
 
@@ -70,11 +72,13 @@ function plotGraph(y, graphPoints, txt, threshold) {
 	text(txt, plotPos.x, plotPos.y - 7)
 	onlyStroke()
 	rect(plotPos.x, plotPos.y, plotSize.x, plotSize.y)
-	dottedLine(plotPos.x, plotSize.x, plotPos.y + (1 - threshold) * plotSize.y)
+	// dottedLine(plotPos.x, plotSize.x, plotPos.y + (1 - threshold/maxVal) * plotSize.y)
+	dottedLine(plotPos.x, plotSize.x, plotPos.y + plotSize.y/2)
 	beginShape()
 	graphPoints.forEach((graphPoint, index) => {
 		const x = plotPos.x + plotSize.x * (index / 29)
-		const y = plotPos.y + plotSize.y * (1 - graphPoint)
+		const val = (graphPoint > threshold) ? map(graphPoint,threshold,maxVal,0.5,1) : map(graphPoint,0,threshold,0,0.5)
+		const y = plotPos.y + plotSize.y * (1 - val)
 		curveVertex(x, y)
 	})
 	endShape()

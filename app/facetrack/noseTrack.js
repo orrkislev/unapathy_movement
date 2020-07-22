@@ -12,7 +12,8 @@ function updateNose(nosePosition) {
       if (typeof (noseSpeed == 'number')) {
         avgFaceSpeed = round(NOSE_SPEED_SOOTHING * avgFaceSpeed + (1.0 - NOSE_SPEED_SOOTHING) * noseSpeed);
         faceMaxSpeed = Math.max(faceMaxSpeed, avgFaceSpeed)
-        facePoints.push(avgFaceSpeed / faceMaxSpeed)
+        // facePoints.push(avgFaceSpeed / faceMaxSpeed)
+        facePoints.push(avgFaceSpeed)
         if (facePoints.length > 30) facePoints.splice(0, 1)
       }
     }
@@ -22,6 +23,6 @@ function updateNose(nosePosition) {
 
 
 function plotNose() {
-  plotGraph(height * 0.35, facePoints, "Head Position:", NOSE_APATHY_THRESHOLD)
+  plotGraph(height * 0.35, facePoints, "Head Position:", NOSE_APATHY_THRESHOLD, faceMaxSpeed)
 }
 

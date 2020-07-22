@@ -65,7 +65,8 @@ function updateGazeAndNose() {
 			const gazeSpeed = dist(prevXprediction, prevYprediction, xprediction, yprediction)	
 			avgGazeSpeed = round(GAZE_SPEED_SOOTHING * avgGazeSpeed + (1.0 - GAZE_SPEED_SOOTHING) * gazeSpeed);
 			gazeMaxSpeed = Math.max(gazeMaxSpeed, avgGazeSpeed)
-			gazePoints.push(avgGazeSpeed / gazeMaxSpeed)
+			// gazePoints.push(avgGazeSpeed / gazeMaxSpeed)
+			gazePoints.push(avgGazeSpeed)
 			if (gazePoints.length > 30) gazePoints.splice(0, 1)
 		}
 		prevXprediction = xprediction;
@@ -76,5 +77,5 @@ function updateGazeAndNose() {
 }
 
 function plotGaze() {
-	plotGraph(height * 0.5,gazePoints,"Eye Gaze:",GAZE_APATHY_THRESHOLD)
+	plotGraph(height * 0.5,gazePoints,"Eye Gaze:",GAZE_APATHY_THRESHOLD, gazeMaxSpeed)
 }
