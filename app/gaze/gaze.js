@@ -52,22 +52,24 @@ let avgGazeSpeed = 0;
 let gazePoints = []
 function updateGazeAndNose() {
 	if (xprediction && yprediction) {
-		noStroke();
-		fill(255, 0, 255);
-		ellipse(xprediction, yprediction, MARKER_SIZE, MARKER_SIZE);
+		gazePlotPoint[0] = lerp(gazePlotPoint[0],xprediction,0.3)
+		gazePlotPoint[1] = lerp(gazePlotPoint[1],yprediction,0.3)
 		if (xprediction != prevXprediction || yprediction != prevYprediction) {
 			const gazeSpeed = dist(prevXprediction, prevYprediction, xprediction, yprediction)	
 			avgGazeSpeed = GAZE_SPEED_SOOTHING * avgGazeSpeed + (1.0 - GAZE_SPEED_SOOTHING) * gazeSpeed
-			gazeMaxSpeed = lerp(gazeMaxSpeed,avgGazeSpeed,0.01)
-			gazeMaxSpeed = Math.max(gazeMaxSpeed, avgGazeSpeed)
+			if (gazePoints.length>10)
+				gazeMaxSpeed = Math.max(gazeMaxSpeed, avgGazeSpeed)
 			gazePoints.push(avgGazeSpeed)
-			if (gazePoints.length > 30) gazePoints.splice(0, 1)
+			if (gazePoints.length > graphPlotLength) gazePoints.splice(0, 1)
 		}
 		prevXprediction = xprediction;
 		prevYprediction = yprediction;
 		if (webgazer.getTracker().getPositions().length>=2)
 			updateNose(webgazer.getTracker().getPositions()[1])
+		xprediction = null
+		return true
 	}
+	return false
 }
 
 function plotGaze() {

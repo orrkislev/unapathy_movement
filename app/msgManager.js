@@ -1,7 +1,7 @@
 function calibrationMessage1() {
     showMsg({
         title: "Calibration",
-        subtitle: "Please click on each of the 9 points on the screen. You must click on each point 5 times till it goes yellow. This will calibrate your eye movements.",
+        subtitle: "Please click on each of the 9 points on the screen. You must click on each point 5 times till it goes green. This will calibrate your eye movements.",
         btn1: 'OK',
         btn2: 'SKIP',
     })
@@ -19,7 +19,6 @@ function calibrationMessage1() {
 }
 
 function forgetAboutMeMessage() {
-    startGatheringData()
     showMsg({
         title: "Good",
         subtitle: "Now, forget about me, and go back to work. I will study you for a while.",
@@ -42,6 +41,7 @@ function startPlottingMessage() {
     $('#msgBtn1').on('click', () => {
         hideMsg()
         learning = false
+        resetTimers()
         startPlotting()
         goBackToWorkMessage()
     })

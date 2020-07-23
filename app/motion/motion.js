@@ -53,10 +53,9 @@ function updateMovement() {
     if (flow.flow) {
       const rawMotion = constrain(round(sqrt(pow(flow.flow.u, 2) + pow(flow.flow.v, 2)) / step * 100 * 5), 0, 100);
       avgMovement = MOVEMENT_SPEED_SOOTHING * avgMovement + (1.0 - MOVEMENT_SPEED_SOOTHING) * rawMotion;
-      movementMaxSpeed = lerp (movementMaxSpeed, avgMovement, 0.01)
       movementMaxSpeed = Math.max(movementMaxSpeed, avgMovement)
       movementPoints.push(avgMovement)
-      if (movementPoints.length > 30) movementPoints.splice(0, 1)
+      if (movementPoints.length > graphPlotLength) movementPoints.splice(0, 1)
     }
   }
 }

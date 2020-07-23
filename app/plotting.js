@@ -1,3 +1,4 @@
+let graphPlotLength = 30
 let RESPONSIVE_SMALL = 570
 
 let plotSmall = false
@@ -63,7 +64,7 @@ function changeLogo() {
 
 
 function plotGraph(y, graphPoints, txt, threshold, maxVal) {
-	const plotPos =  createVector(width * 0.1, y)
+	const plotPos = createVector(width * 0.1, y)
 	const plotSize = (plotSmall) ? createVector(width * 0.8, height * 0.1) : createVector(width * 0.25, height * 0.1)
 
 	textSize(14)
@@ -72,11 +73,11 @@ function plotGraph(y, graphPoints, txt, threshold, maxVal) {
 	text(txt, plotPos.x, plotPos.y - 7)
 	onlyStroke()
 	rect(plotPos.x, plotPos.y, plotSize.x, plotSize.y)
-	dottedLine(plotPos.x, plotSize.x, plotPos.y + (1 - threshold/maxVal) * plotSize.y)
+	dottedLine(plotPos.x, plotSize.x, plotPos.y + (1 - threshold / maxVal) * plotSize.y)
 	beginShape()
 	graphPoints.forEach((graphPoint, index) => {
-		const x = plotPos.x + plotSize.x * (index / 29)
-		const y = plotPos.y + plotSize.y * (1 - graphPoint/maxVal)
+		const x = plotPos.x + plotSize.x * (index / (graphPlotLength-1))
+		const y = plotPos.y + plotSize.y * (1 - graphPoint / maxVal)
 		curveVertex(x, y)
 	})
 	endShape()
@@ -84,14 +85,20 @@ function plotGraph(y, graphPoints, txt, threshold, maxVal) {
 
 function plotTexts() {
 	const currTime = new Date()
-	const totalTime = (currTime - startTime) / 1000
-	let totalString = "Total time in front of screen: "
-	totalString += totalTime > 120 ? str(floor(totalTime / 60)) + " min" : str(floor(totalTime)) + " sec"
+	let screenString = "Total time in front of screen: "
+	screenString += screenTime > 120 ? str(floor(screenTime / 60)) + " min" : str(floor(screenTime)) + " sec"
 	let passiveString = "Total passive moments: "
-	passiveString += apathyLevel > 120 ? str(floor(apathyLevel / 60)) + " min" : str(floor(apathyLevel)) + " sec"
+	passiveString += apathyTime > 120 ? str(floor(apathyTime / 60)) + " min" : str(floor(apathyTime)) + " sec"
 	textSize(17)
 	textStyle(BOLD);
 	onlyFill()
-	text(totalString, width * 0.1, height * 0.65)
+	text(screenString, width * 0.1, height * 0.65)
 	text(passiveString, width * 0.1, height * 0.65 + 20)
+}
+
+let gazePlotPointSize = 15
+let gazePlotPoint = [-30,-30]
+function plotGazePoint() {
+	onlyFill()
+	circle(gazePlotPoint[0],gazePlotPoint[1],gazePlotPointSize);
 }

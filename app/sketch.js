@@ -3,9 +3,8 @@ let NOSE_APATHY_THRESHOLD = 0.5
 let MOVE_APATHY_THRESHOLD = 0.8
 
 let MINUTES_TO_VIDEO = 1
-let apathyLevel = 0;
-
-let startTime
+let apathyTime = 0;
+let screenTime = 0
 
 function setup() {
 	Notification.requestPermission();
@@ -16,24 +15,23 @@ function setup() {
 }
 
 let plotting = false // false
-let gathering = true // true
-let measuring = false // false
 let practicing = false // false
 let learning = true // true
 let viewing = false // false
 
-function startPlotting() { plotting = true; measuring = true }
-function startGatheringData() { gathering = true; startTime = new Date() }
+function startPlotting() { plotting = true }
+function resetTimers() { screenTime = 0; apathyTime = 0; }
 function stopPlotting() { plotting = false }
 function startPracticing() { practicing = true; webgazer.begin() }
 
+let isFacingCamera = false
 function draw() {
 	background(255)
-	if (gathering) {
-		updateMovement()
-		updateGazeAndNose()
-	}
+	updateMovement()
+	isFacingCamera = updateGazeAndNose()
+
 	if (learning) {
+		plotGazePoint()
 		if (gazePoints.length > 0)
 			GAZE_APATHY_THRESHOLD = lerp(GAZE_APATHY_THRESHOLD, gazePoints[gazePoints.length - 1] * 0.8, 0.02)
 		if (facePoints.length > 0)
@@ -42,31 +40,34 @@ function draw() {
 			MOVE_APATHY_THRESHOLD = lerp(MOVE_APATHY_THRESHOLD, movementPoints[movementPoints.length - 1] * 0.8, 0.02)
 	}
 	if (plotting) {
+		plotGazePoint()
 		plotImage()
 		plotGaze()
 		plotNose()
 		plotMovement()
 		plotTexts()
-	}
-	if (measuring) {
-		if (apathyLevel < MINUTES_TO_VIDEO * 60) {
-			if (gazePoints[gazePoints.length - 1] < GAZE_APATHY_THRESHOLD &&
-				facePoints[facePoints.length - 1] < NOSE_APATHY_THRESHOLD &&
-				movementPoints[movementPoints.length - 1] < MOVE_APATHY_THRESHOLD) {
-				apathyLevel += deltaTime / 1000
-				if (apathyLevel > MINUTES_TO_VIDEO * 60) {
-					new Notification('You are passive', {body:'see what you can do'});
-					passiveTooLong()
+		if (isFacingCamera) {
+			if (apathyTime < MINUTES_TO_VIDEO * 60) {
+				if (gazePoints[gazePoints.length - 1] < GAZE_APATHY_THRESHOLD &&
+					facePoints[facePoints.length - 1] < NOSE_APATHY_THRESHOLD &&
+					movementPoints[movementPoints.length - 1] < MOVE_APATHY_THRESHOLD) {
+					apathyTime += deltaTime / 1000
+					if (apathyTime > MINUTES_TO_VIDEO * 60) {
+						new Notification('You are passive', { body: 'see what you can do' });
+						passiveTooLong()
+					}
 				}
 			}
+			screenTime += deltaTime / 1000
 		}
 		noStroke()
 		fill(255, 0, 255, 165)
-		const apathyPercentage = apathyLevel / (MINUTES_TO_VIDEO * 60)
+		const apathyPercentage = apathyTime / (MINUTES_TO_VIDEO * 60)
 		rect(0, height - height * apathyPercentage, width, height * apathyPercentage)
 	}
 	if (viewing) {
-		if (videoPlayer.currentTime()>20 && videoPlayer.remainingTime()<1){
+		background(255, 0, 255)
+		if (videoPlayer.currentTime() > 20 && videoPlayer.remainingTime() < 1) {
 			videoPlayer.pause()
 			videoPlayer.currentTime(2)
 			viewing = false
@@ -107,13 +108,13 @@ function startVideo(numBalls) {
 	videoPlayer = videojs('videoPlayer')
 	videoPlayer.src({
 		type: "video/youtube",
-        src: youtubeLinks[numBalls],
-        youtube: {
-          "ytControls": 2,
-          "modestbranding":"1",
-          "fs":"0",
-          "showinfo":"0"
-        }
+		src: youtubeLinks[numBalls],
+		youtube: {
+			"ytControls": 2,
+			"modestbranding": "1",
+			"fs": "0",
+			"showinfo": "0"
+		}
 	})
 	videoPlayer.currentTime(0);
 	videoPlayer.play()
@@ -122,7 +123,7 @@ function startVideo(numBalls) {
 }
 
 
-function resetTimers(){
-	apathyLevel = 0
+function resetTimers() {
+	apathyTime = 0
 	startTime = new Date()
 }

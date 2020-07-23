@@ -1,7 +1,7 @@
 let captureRatioForPractice = null
 const targetRadius = 40;
 let practiceThreshold = 40
-let practiceTargets = []
+let practiceTargets = [100,400]
 let practiceTargetHeight = 40
 
 function practice() {
@@ -17,9 +17,14 @@ function practice() {
     checkTarget()
 
     if (webgazer.getTracker().getPositions() !== null){
+        const noseHeight = webgazer.getTracker().getPositions()[1][1]
         const dist = abs(webgazer.getTracker().getPositions()[205][0] - webgazer.getTracker().getPositions()[425][0]) 
         const mid = (webgazer.getTracker().getPositions()[205][0] + webgazer.getTracker().getPositions()[425][0])/2
-        practiceTargets = [mid-dist*2,mid+dist*2 ]
+        practiceTargetHeight = lerp(practiceTargetHeight,max(noseHeight-dist*5,targetRadius),0.3)
+        practiceTargets = [
+            lerp(practiceTargets[0],mid-dist*2,0.3),
+            lerp(practiceTargets[1],mid+dist*2,0.3)
+        ]
     }
 }
 
