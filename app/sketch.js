@@ -64,13 +64,7 @@ function draw() {
 		rect(0, height - height * apathyPercentage, width, height * apathyPercentage)
 	}
 	if (viewing) {
-		if (videoPlayer.currentTime() > 20 && videoPlayer.remainingTime() < 1) {
-			videoPlayer.pause()
-			videoPlayer.currentTime(2)
-			viewing = false
-			$("#videoConrainer").hide()
-			endVideoMessage(currVideoIndex)
-		}
+		if (videoPlayer.currentTime() > 20 && videoPlayer.remainingTime() < 1) stopVideo()
 	}
 	if (practicing) {
 		practice()
@@ -134,4 +128,12 @@ function startVideo(numBalls) {
 	videoPlayer.play()
 	currVideoIndex = numBalls
 	viewing = true
+}
+
+function stopVideo(){
+	videoPlayer.pause()
+	videoPlayer.currentTime(2)
+	viewing = false
+	$("#videoConrainer").hide()
+	endVideoMessage(currVideoIndex)
 }

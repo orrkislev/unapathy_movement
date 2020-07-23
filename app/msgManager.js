@@ -19,7 +19,6 @@ function calibrationMessage1() {
         },
         btn2Click: () => {
             // hideCalibrationButtons();
-            stopLearning()
             resetTimers()
             startPlotting()
             startPlottingMessage();
@@ -33,6 +32,7 @@ function startPlottingMessage() {
         btn1: 'start',
         btn1Click: () => {
             hideMsg()
+            stopLearning()
         },
         black: true
     })
@@ -131,7 +131,7 @@ function startVideoMessage1() {
     $("#videoTitle").text("Three ball juggling training - level 1 (one ball)")
     $("#videoBtn1").text('skip to level 2 (two balls)')
     $("#videoBtn2").on('click', ()=>{
-        $("#videoConrainer").hide()
+        stopVideo()
         startPracticing()
     })
     $("#videoBtn1").on('click', startVideoMessage2)

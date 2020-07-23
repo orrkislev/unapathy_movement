@@ -1,18 +1,21 @@
 let graphPlotLength = 30
 let RESPONSIVE_SMALL = 570
+let GUTTER_SCALE = 0.045
+let PLOT_CAPTURE_SCALE = 0.45
+let ALIGN_TOP_SCALE = 0.2
 
 let gutter
-let plotCaptureScale, plotCaptureX, plotCaptureY
+let plotCaptureScale, plotCaptureX,plotCaptureY
 let plotGraphY_movement, plotGraphY_face, plotGraphY_gaze
 
 function initPlot() {
-	gutter = width * 0.045
+	gutter = width * GUTTER_SCALE
 	if (motionCapture) {
-		const plotCaptureWidth = width * 0.45
+		const plotCaptureWidth = width * PLOT_CAPTURE_SCALE
 		plotCaptureScale = plotCaptureWidth / motionCapture.width
 		const plotCaptureHeight = motionCapture.height * plotCaptureScale
 		plotCaptureX = width - gutter - plotCaptureWidth
-		plotCaptureY = height - gutter - plotCaptureHeight
+		plotCaptureY = height * ALIGN_TOP_SCALE
 
 		plotGraphY_movement = plotCaptureY
 		plotGraphY_face = plotCaptureY + gutter + 50
@@ -106,7 +109,7 @@ function plotTexts() {
 	textStyle(BOLD);
 	textAlign(LEFT, BASELINE);
 	onlyFill()
-	text(screenString, gutter, height-gutter-20)
+	text(screenString, gutter, height-gutter-30)
 	text(passiveString, gutter, height-gutter)
 }
 

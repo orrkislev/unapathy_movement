@@ -19,7 +19,9 @@ $(".Calibration").click(function () {
 
   if (PointCalibrate >= 9) { // last point is calibrated
     hideCalibrationButtons()
-    forgetAboutMeMessage()
+    resetTimers()
+    startPlotting()
+    startPlottingMessage();
   }
 });
 
