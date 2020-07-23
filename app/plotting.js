@@ -28,12 +28,13 @@ function windowResized() {
 }
 
 let opticalFlow = true
-function plotImage() {
+function plotImage(isDone) {
 	if (!plotSmall) {
 		if (flow.flow) {
 			onlyStroke()
+			const xStart = (isDone) ? gutter : plotCaptureX
 			flow.flow.zones.forEach((zone, index) => {
-				const x = plotCaptureX + zone.x * plotCaptureScale
+				const x = xStart + zone.x * plotCaptureScale
 				const y = plotCaptureY + zone.y * plotCaptureScale
 				line(x, y, x + zone.u * 3, y + zone.v * 3)
 			})

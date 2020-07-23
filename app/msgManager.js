@@ -97,17 +97,17 @@ function donePracticeMessage() {
         btn1Click:()=>{
             resetTimers()
             startPlotting()
+            flattenApathyLevelMessage()
         },
         btn2Click:()=>{
-            resetTimers()
-            startPlotting()
+            done = true
         }
     })
 }
 
 function flattenApathyLevelMessage(){
     showMsg({
-        text:'You flattened your apathy level',
+        text:'Great! You pushed apathy away.',
         btn1: 'continue working',
         btnText: ' or ',
         btn2: 'go home',
@@ -116,8 +116,7 @@ function flattenApathyLevelMessage(){
             startPlotting()
         },
         btn2Click:()=>{
-            resetTimers()
-            startPlotting()
+            done = true
         },
         black:true
     })

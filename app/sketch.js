@@ -3,6 +3,8 @@ let NOSE_APATHY_THRESHOLD = 0.5
 let MOVE_APATHY_THRESHOLD = 0.8
 
 let MINUTES_TO_VIDEO = 0.005
+let totalApathyTime = 0
+let totalScreenTime = 0
 let apathyTime = 0;
 let screenTime = 0
 
@@ -19,22 +21,12 @@ let plotting = false // false
 let practicing = false // false
 let learning = true // true
 let viewing = false // false
+let done = false
 
-function startPlotting() { plotting = true; initPlot() }
-function resetTimers() { screenTime = 0; apathyTime = 0; }
-function stopPlotting() { plotting = false }
-function startPracticing() {
-	practicing = true; 
-	$('#donePractice').show() 
-	$('#donePracticeBtn').on('click', donePracticeMessage)
-}
-function stopLearning(){learning = false}
-
-let isFacingCamera = false
 function draw() {
 	background(255)
 	updateMovement()
-	isFacingCamera = updateGazeAndNose()
+	const isFacingCamera = updateGazeAndNose()
 
 	if (learning) {
 		plotGazePoint()
@@ -83,12 +75,29 @@ function draw() {
 	if (practicing) {
 		practice()
 	}
+	if (done){
+		plotImage(true)
+	}
 
 	drawLogo()
 }
 
-function keyPressed() {
-	if (keyCode == ENTER) opticalFlow = !opticalFlow
+
+function resetTimers() {
+	totalApathyTime += apathyTime
+	totalScreenTime += screenTime
+	screenTime = 0;
+	apathyTime = 0; 
+}
+function startPlotting() { plotting = true; initPlot() }
+function stopPlotting() { plotting = false }
+function startPracticing() {
+	practicing = true; 
+	$('#donePractice').show() 
+	$('#donePracticeBtn').on('click', donePracticeMessage)
+}
+function stopLearning(){
+	learning = false
 }
 
 function onlyFill() {
@@ -125,10 +134,4 @@ function startVideo(numBalls) {
 	videoPlayer.play()
 	currVideoIndex = numBalls
 	viewing = true
-}
-
-
-function resetTimers() {
-	apathyTime = 0
-	startTime = new Date()
 }
