@@ -1,151 +1,161 @@
-function calibrationMessage1() {
+function welcomeMessage() {
     showMsg({
-        title: "Calibration",
-        subtitle: "Please click on each of the 9 points on the screen. You must click on each point 5 times till it goes green. This will calibrate your eye movements.",
-        btn1: 'OK',
-        btn2: 'SKIP',
-    })
-    $('#msgBtn1').off('click')
-    $('#msgBtn1').on('click', () => {
-        hideMsg()
-        ShowCalibrationPoint();
-    })
-    $('#msgBtn2').off('click')
-    $('#msgBtn2').on('click', () => {
-        hideMsg()
-        hideCalibrationButtons();
-        forgetAboutMeMessage()
+        text: "welcome!<br/>please allow the use of your webcam<br/>for analyzing your movement and monitor<br/>your apathy.<br/>",
+        btn1: "ok",
+        btn1Click: () => {
+            calibrationMessage1()
+        }
     })
 }
 
-function forgetAboutMeMessage() {
+function calibrationMessage1() {
     showMsg({
-        title: "Good",
-        subtitle: "Now, forget about me, and go back to work. I will study you for a while.",
-        btn1: 'NICE'
-    })
-    $('#msgBtn1').off('click')
-    $('#msgBtn1').on('click', () => {
-        hideMsg()
-        setTimeout(startPlottingMessage, 3000)
+        text: "Calibrate your eye gaze.<br/>Click on each of the 9 points on the screen<br/>5 times till each goes green. ",
+        btn1: 'calibrate now',
+        btnText: ' or ',
+        btn2: 'skip',
+        btn1Click: () => {
+            ShowCalibrationPoint();
+        },
+        btn2Click: () => {
+            // hideCalibrationButtons();
+            stopLearning()
+            resetTimers()
+            startPlotting()
+            startPlottingMessage();
+        }
     })
 }
 
 function startPlottingMessage() {
     showMsg({
-        title: "OK!",
-        subtitle: "Now you are ready",
-        btn1: 'START'
-    })
-    $('#msgBtn1').off('click')
-    $('#msgBtn1').on('click', () => {
-        hideMsg()
-        learning = false
-        resetTimers()
-        startPlotting()
-        goBackToWorkMessage()
+        text: "Now you are ready! Go back to work and let<br/>me monitor your apathy in the background. ",
+        btn1: 'start',
+        btn1Click: () => {
+            hideMsg()
+        },
+        black: true
     })
 }
-
-function goBackToWorkMessage() {
-    $('#msg').css('color', 'black')
-    showMsg({
-        title: "",
-        subtitle: "Go back to work and let me monitor your apathy in the background",
-        btn1: 'OK'
-    })
-    $('#msgBtn1').off('click')
-    $('#msgBtn1').on('click', () => {
-        hideMsg()
-    })
-}
-
 
 function passiveTooLong() {
     showMsg({
-        title: "You have been passive for " + str(MINUTES_TO_VIDEO) + " min, let’s move!",
-        subtitle: "Take a moment to learn to juggle",
-        btn1: 'PLAY THE VIDEO'
+        text: "You have been apathetic for 45 min!<br/>Now, take a moment to practice <span id='startVideoBtn' class='button'>3 ball juggling</span>",
+        black: true
     })
-    $('#msgBtn1').off('click')
-    $('#msgBtn1').on('click', () => {
+    $('#startVideoBtn').on('click', () => {
+        $('#msg').css('color', 'rgba(255,0,255,1)')
         hideMsg()
         stopPlotting()
-        startVideo(1)
-        $('#msg').css('color', 'rgba(255,0,255,1)')
+        startVideoMessage1()
     })
 }
 
 function endVideoMessage(videoIndex) {
-    if (videoIndex == 1) {
-        showMsg({
-            title: "Now, let's practice!",
-            subtitle: "or learn to juggle with 2 balls",
-            btn1: 'PRACTICE',
-            btn2: 'LEARN MORE'
-        })
-        $('#msgBtn1').off('click')
-        $('#msgBtn1').on('click', () => {
-            hideMsg()
-            endVideoMessage(3)
-        })
-        $('#msgBtn2').off('click')
-        $('#msgBtn2').on('click', () => {
-            hideMsg()
-            startVideo(2)
-        })
-    } else if (videoIndex == 2) {
-        showMsg({
-            title: "Now, let's practice!",
-            subtitle: "or learn to juggle with 3 balls!",
-            btn1: 'PRACTICE',
-            btn2: 'LEARN MORE'
-        })
-        $('#msgBtn1').off('click')
-        $('#msgBtn1').on('click', () => {
-            hideMsg()
-            endVideoMessage(3)
-        })
-        $('#msgBtn2').off('click')
-        $('#msgBtn2').on('click', () => {
-            hideMsg()
-            startVideo(3)
-        })
-    } else if (videoIndex == 3) {
-        startPracticing()
-        showMsg({
-            title: "Great",
-            subtitle: "practice as much as you need in order to feel activated",
-            btn1: 'START PRACTICING',
-        })
-        $('#msgBtn1').off('click')
-        $('#msgBtn1').on('click', () => {
-            hideMsg()
-            $('#donePractice').show()
-        })
-    }
+    if (videoIndex == 1) practiceOrSkip2Message()
+    if (videoIndex == 2) practiceOrSkip3Message()
+    if (videoIndex == 3) practiceMessage()
+}
+
+function practiceOrSkip2Message() {
+    showMsg({
+        text: "Now, practice as much as you need<br/>in order to feel activated",
+        btn1: "Let’s practice",
+        btnText: ' or ',
+        btn2: 'skip to level 2',
+        btn1Click: startPracticing,
+        btn2Click: startVideoMessage2
+    })
+}
+
+function practiceOrSkip3Message() {
+    showMsg({
+        text: "Now, practice as much as you need<br/>in order to feel activated",
+        btn1: "Let’s practice",
+        btnText: ' or ',
+        btn2: 'skip to level 3',
+        btn1Click: startPracticing,
+        btn2Click: startVideoMessage3
+    })
+}
+
+function practiceMessage() {
+    showMsg({
+        text: "Now, practice as much as you need<br/>in order to feel activated",
+        btn1: "Let’s practice",
+        btn1Click: () => {
+            startPracticing()
+        },
+    })
 }
 
 function donePracticeMessage() {
     showMsg({
-        title: "",
-        subtitle: "",
-        btn1: 'CONTINUE WORKING',
-        btn1: 'GO HOME',
-    })
-    $('#msgBtn1').off('click')
-    $('#msgBtn1').on('click', () => {
-        hideMsg()
-        resetTimers()
-        startPlotting()
-    })
-    $('#msgBtn2').off('click')
-    $('#msgBtn2').on('click', () => {
-        hideMsg()
-        resetTimers()
-        startPlotting()
+        btn1: 'continue working',
+        btnText: ' or ',
+        btn2: 'go home',
+        btn1Click:()=>{
+            resetTimers()
+            startPlotting()
+        },
+        btn2Click:()=>{
+            resetTimers()
+            startPlotting()
+        }
     })
 }
+
+function flattenApathyLevelMessage(){
+    showMsg({
+        text:'You flattened your apathy level',
+        btn1: 'continue working',
+        btnText: ' or ',
+        btn2: 'go home',
+        btn1Click:()=>{
+            resetTimers()
+            startPlotting()
+        },
+        btn2Click:()=>{
+            resetTimers()
+            startPlotting()
+        },
+        black:true
+    })
+}
+
+
+
+
+
+function startVideoMessage1() {
+    startVideo(1)
+    $("#videoTitle").text("Three ball juggling training - level 1 (one ball)")
+    $("#videoBtn1").text('skip to level 2 (two balls)')
+    $("#videoBtn2").on('click', ()=>{
+        $("#videoConrainer").hide()
+        startPracticing()
+    })
+    $("#videoBtn1").on('click', startVideoMessage2)
+}
+
+function startVideoMessage2() {
+    startVideo(2)
+    $("#videoTitle").text("Three ball juggling training - level 2 (two balls)")
+    $("#videoBtn1").text('skip to level 3 (three balls)')
+    $("#videoBtn1").off('click')
+    $("#videoBtn1").on('click', startVideoMessage3)
+}
+
+function startVideoMessage3() {
+    startVideo(3)
+    $("#videoTitle").text("Three ball juggling training - level 3 (three balls)")
+    $("#videoBtnText").hide()
+    $("#videoBtn1").text('')
+}
+
+
+
+
 
 
 
@@ -154,32 +164,22 @@ function hideMsg() {
 }
 
 function showMsg(context) {
+    if (context.black) $('#msg').css('color', 'black')
     $('#msg').show()
-    $('#msgTitle').hide()
-    $('#msgsubtitle').hide()
-    $('#msgBtn1').hide()
-    $('#msgBtn2').hide()
-    if ('title' in context) showMsgTitle(context.title)
-    if ('subtitle' in context) showMsgSubtitle(context.subtitle)
-    if ('btn1' in context) showMegButton1(context.btn1)
-    if ('btn2' in context) showMegButton2(context.btn2)
-}
-
-function showMsgTitle(txt) {
-    $('#msgTitle').show()
-    $('#msgTitle').text(txt)
-}
-
-function showMsgSubtitle(txt) {
-    $('#msgsubtitle').show()
-    $('#msgsubtitle').text(txt)
-}
-
-function showMegButton1(txt) {
-    $('#msgBtn1').show()
-    $('#msgBtn1').text(txt)
-}
-function showMegButton2(txt) {
-    $('#msgBtn2').show()
-    $('#msgBtn2').text(txt)
+    $('#msgText').html(context.text ? context.text : '')
+    $('#msgBtn1').html(context.btn1 ? context.btn1 : '')
+    $('#msgButtonText').html(context.btnText ? context.btnText : '')
+    $('#msgBtn2').html(context.btn2 ? context.btn2 : '')
+    $('#msgBtn1').off('click')
+    $('#msgBtn2').off('click')
+    if (context.btn1Click) $('#msgBtn1').on('click', () => {
+        if (context.black) $('#msg').css('color', 'rgba(255,0,255,1)')
+        hideMsg()
+        context.btn1Click()
+    })
+    if (context.btn2Click) $('#msgBtn2').on('click', () => {
+        if (context.black) $('#msg').css('color', 'rgba(255,0,255,1)')
+        hideMsg()
+        context.btn2Click()
+    })
 }

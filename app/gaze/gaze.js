@@ -39,7 +39,7 @@ function checkIfReady() {
 	if (webgazer.isReady()) {
 		webgazer.clearData();
 		resetCalibrationPoints();
-  		calibrationMessage1()
+  		// calibrationMessage1()
 	} else {
 		setTimeout(checkIfReady, 100);
 	}
@@ -73,5 +73,5 @@ function updateGazeAndNose() {
 }
 
 function plotGaze() {
-	plotGraph(height * 0.5,gazePoints,"Eye Gaze:",GAZE_APATHY_THRESHOLD, gazeMaxSpeed)
+	plotGraph(plotGraphY_gaze,gazePoints,"Eye Gaze:",GAZE_APATHY_THRESHOLD, gazeMaxSpeed)
 }

@@ -2,16 +2,17 @@ let GAZE_APATHY_THRESHOLD = 0.4
 let NOSE_APATHY_THRESHOLD = 0.5
 let MOVE_APATHY_THRESHOLD = 0.8
 
-let MINUTES_TO_VIDEO = 1
+let MINUTES_TO_VIDEO = 0.005
 let apathyTime = 0;
 let screenTime = 0
 
 function setup() {
 	Notification.requestPermission();
-	print("start setup")
+	welcomeMessage()
 	resizeCanvas(window.innerWidth, window.innerHeight)
 	webgazerSetup();
 	motionSetup();
+	initPlot()
 }
 
 let plotting = false // false
@@ -19,10 +20,15 @@ let practicing = false // false
 let learning = true // true
 let viewing = false // false
 
-function startPlotting() { plotting = true }
+function startPlotting() { plotting = true; initPlot() }
 function resetTimers() { screenTime = 0; apathyTime = 0; }
 function stopPlotting() { plotting = false }
-function startPracticing() { practicing = true; webgazer.begin() }
+function startPracticing() {
+	practicing = true; 
+	$('#donePractice').show() 
+	$('#donePracticeBtn').on('click', donePracticeMessage)
+}
+function stopLearning(){learning = false}
 
 let isFacingCamera = false
 function draw() {
@@ -66,12 +72,11 @@ function draw() {
 		rect(0, height - height * apathyPercentage, width, height * apathyPercentage)
 	}
 	if (viewing) {
-		background(255, 0, 255)
 		if (videoPlayer.currentTime() > 20 && videoPlayer.remainingTime() < 1) {
 			videoPlayer.pause()
 			videoPlayer.currentTime(2)
 			viewing = false
-			$('#videoPlayer').hide()
+			$("#videoConrainer").hide()
 			endVideoMessage(currVideoIndex)
 		}
 	}
@@ -104,7 +109,7 @@ const youtubeLinks = ['',
 ]
 let currVideoIndex
 function startVideo(numBalls) {
-	$('#videoPlayer').show()
+	$("#videoConrainer").show()
 	videoPlayer = videojs('videoPlayer')
 	videoPlayer.src({
 		type: "video/youtube",

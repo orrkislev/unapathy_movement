@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <title>UNAPATHY MOVEMENT</title>
 
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./gaze/style.css">
   <link rel="stylesheet" href="./style.css">
 
@@ -35,17 +36,23 @@
   </div>
 
   <div id='msg'>
-    <div id='msgTitle'></div>
-    <div id='msgsubtitle'>Please allow the use of your camera</div>
-    <div id='msgBtn1' class='button'></div>
-    <div id='msgBtn2' class='button'></div>
+    <div id='msgText'>
+    </div>
+    <br/>
+    <div id='msgBtns'>
+      <span id='msgBtn1' class='button'></span>
+      <span id='msgButtonText'></span>
+      <span id='msgBtn2' class='button'></span>
+    </div>
   </div>
 
   <div id='donePractice'>
-      <div >Done for now?</div>
-      <div id='donePracticeBtn' class='button'>Go back to work</div>
+      <div >I feel activated!</div>
+      <div id='donePracticeBtn' class='button'>done for now</div>
   </div>
 
+  <div id='videoConrainer' style='display:none'>
+    <div id='videoTitle'></div>
   <video id="videoPlayer" class="video-js vjs-default-skin" 
     preload="auto" 
     controls
@@ -63,6 +70,12 @@
         }
       }]
     }'></video>
+    <div id='videoBtns'>
+      <span id='videoBtn1' class='button'></span>
+      <span id='videoBtnText'>or</span>
+      <span id='videoBtn2' class='button'>practice now</span>
+    </div>
+  </div>
 
   <div id='aboutContainer'><a id='aboutBtn' href='./about.html'>ABOUT</a></div>
 

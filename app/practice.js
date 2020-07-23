@@ -1,61 +1,41 @@
-let captureRatioForPractice = null
 const targetRadius = 40;
 let practiceThreshold = 40
-let practiceTargets = [100,400]
-let practiceTargetHeight = 40
+let practiceTargetHeight = 70
+let offsets = [35,65];
 
 function practice() {
-    if (captureRatioForPractice==null) captureRatioForPractice = (width * 0.6 / motionCapture.width)
+    const imagePosX = width/2 - motionCapture.width*plotCaptureScale/2
+    const imagePosY = height-gutter - motionCapture.height*plotCaptureScale
     scale(-1, 1)
     image(motionCapture,
-        -width * 0.2, height * 0.2,
-        -motionCapture.width * captureRatioForPractice,
-        motionCapture.height * captureRatioForPractice)
+        -imagePosX,imagePosY ,
+        -motionCapture.width * plotCaptureScale,
+        motionCapture.height * plotCaptureScale)
     resetMatrix()
     updateMovement()
 
-    checkTarget()
-
-    if (webgazer.getTracker().getPositions() !== null){
-        const noseHeight = webgazer.getTracker().getPositions()[1][1]
-        const dist = abs(webgazer.getTracker().getPositions()[205][0] - webgazer.getTracker().getPositions()[425][0]) 
-        const mid = (webgazer.getTracker().getPositions()[205][0] + webgazer.getTracker().getPositions()[425][0])/2
-        practiceTargetHeight = lerp(practiceTargetHeight,max(noseHeight-dist*5,targetRadius),0.3)
-        practiceTargets = [
-            lerp(practiceTargets[0],mid-dist*2,0.3),
-            lerp(practiceTargets[1],mid+dist*2,0.3)
-        ]
-    }
-}
-
-function drawDot(pos){
     onlyFill()
-    circle(width * 0.2 + (motionCapture.width - pos[0]) * captureRatioForPractice,
-           height * 0.2 + pos[1] * captureRatioForPractice,10)
-}
-
-function checkTarget() {
-    practiceTargets.forEach(targetX => {
+	textAlign(LEFT, BASELINE);
+	textSize(20)
+	textStyle(BOLD);
+    text("Move away from the screen, until the dots are in a good position and play!",imagePosX, imagePosY-3)
+    offsets.forEach(offset => {
+        const posX = motionCapture.width * offset / 100
         if (flow.flow) {
             let totalFlow = 0
             flow.flow.zones.forEach(zone => {
-                if (abs(zone.x - targetX) < targetRadius * captureRatioForPractice &&
-                    abs(zone.y - practiceTargetHeight) < targetRadius * captureRatioForPractice) {
+                if (abs(zone.x - posX) < targetRadius * plotCaptureScale &&
+                    abs(zone.y - practiceTargetHeight) < targetRadius * plotCaptureScale) {
                     totalFlow += sqrt(zone.u * zone.u + zone.v * zone.v)
                 }
             })
-            if (totalFlow > practiceThreshold) {
-                onlyFill()
-            } else {
-                onlyStroke()
-            }
-            circle(width * 0.2 + (motionCapture.width - targetX) * captureRatioForPractice,
-                height * 0.2 + practiceTargetHeight * captureRatioForPractice,
-                targetRadius)
+            onlyFill()
+            circle(imagePosX + posX * plotCaptureScale,
+                   imagePosY + practiceTargetHeight * plotCaptureScale,
+                   targetRadius)
         }
     })
 }
-
 
 $('#donePracticeBtn').on('click',() => {
     $('#donePractice').hide()

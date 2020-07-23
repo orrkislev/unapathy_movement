@@ -22,6 +22,6 @@ function updateNose(nosePosition) {
 
 
 function plotNose() {
-  plotGraph(height * 0.35, facePoints, "Head Position:", NOSE_APATHY_THRESHOLD, faceMaxSpeed)
+  plotGraph(plotGraphY_face, facePoints, "Head Position:", NOSE_APATHY_THRESHOLD, faceMaxSpeed)
 }
 
