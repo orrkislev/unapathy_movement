@@ -22,7 +22,7 @@ function initPlot() {
 		plotGraphY_face = plotCaptureY + gutter + 50
 		plotGraphY_gaze = plotCaptureY + (gutter + 50) * 2
 
-		plotTotalsY = plotTotalsY + plotCaptureHeight
+		plotTotalsY = plotCaptureY + plotCaptureHeight
 	}
 	$("#aboutContainer").css('top',gutter-3)
 }

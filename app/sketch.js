@@ -2,7 +2,7 @@ let GAZE_APATHY_THRESHOLD = 0.4
 let NOSE_APATHY_THRESHOLD = 0.5
 let MOVE_APATHY_THRESHOLD = 0.8
 
-let MINUTES_TO_VIDEO = 2
+let MINUTES_TO_VIDEO = 0.3
 let totalApathyTime = 0
 let totalScreenTime = 0
 let apathyTime = 0;
@@ -78,7 +78,10 @@ function draw() {
 		rect(0, height - height * apathyPercentage, width, height * apathyPercentage)
 	}
 	if (viewing) {
-		if (videoPlayer.currentTime() > 20 && videoPlayer.remainingTime() < 1) stopVideo()
+		if (videoPlayer.currentTime() > 20 && videoPlayer.remainingTime() < 1){
+			stopVideo()
+			endVideoMessage(currVideoIndex)
+		} 
 	}
 	if (practicing) {
 		practice()
@@ -103,9 +106,7 @@ function startPracticing() {
 	$('#donePractice').show() 
 	$('#donePracticeBtn').on('click', donePracticeMessage)
 }
-function stopLearning(){
-	learning = false
-}
+
 
 function onlyFill() {
 	noStroke()
@@ -146,19 +147,20 @@ function startVideo(numBalls) {
 }
 
 function stopVideo(){
-	videoPlayer.pause()
-	videoPlayer.currentTime(2)
+	// videoPlayer.pause()
+	// videoPlayer.currentTime(2)
+	videoPlayer.reset()
 	viewing = false
 	$("#videoConrainer").hide()
-	endVideoMessage(currVideoIndex)
 }
 
 function startFollowMe(){
 	followMe = true
 	setTimeout(()=>{
 		followMe = false
+		learning = false
 		resetTimers()
         startPlotting()
-        startPlottingMessage();
+		startPlottingMessage();
 	},10000)
 }

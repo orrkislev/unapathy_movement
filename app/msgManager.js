@@ -30,7 +30,6 @@ function startPlottingMessage() {
         btn1: 'start',
         btn1Click: () => {
             hideMsg()
-            stopLearning()
         },
         black: true
     })
@@ -129,12 +128,13 @@ function parseTime(t){
     return parseInt(hours) +" hours and " + parseInt(minutes) +" minutes"
 }
 function reflectMessage(){
+    resetTimers()
     done = true
     plotCaptureX = gutter
     $('#reflectContainer').show()
     $('#reflectContainer').css('top',plotCaptureY)
     let html = '<b> Now, Take the time to reflect upon your day...</b><br/><br/>'
-    html += '<b>You have been '+parseTime(totalScreenTime)+' in front of your screee you have been passive for '+parseTime(totalApathyTime)+'</b><br/><br/>'
+    html += '<b>You have been '+parseTime(totalScreenTime)+' in front of your screen. you have been passive for '+parseTime(totalApathyTime)+'</b><br/><br/>'
     html += 'We are surrounded with volatility, uncertainty, complexity and ambiguity and sometimes, it makes us feel unmotivated and incapable. Whenever you reach <b>apathetic moments</b> throughout your day, try to remember this feeling of activation and <b>keep practicing</b>.<br/><br/>'
     html += 'Goodbye.'
     $('#reflectContainer').html(html)
