@@ -2,7 +2,7 @@ let GAZE_APATHY_THRESHOLD = 0.4
 let NOSE_APATHY_THRESHOLD = 0.5
 let MOVE_APATHY_THRESHOLD = 0.8
 
-let MINUTES_TO_VIDEO = 0.005
+let MINUTES_TO_VIDEO = 2
 let totalApathyTime = 0
 let totalScreenTime = 0
 let apathyTime = 0;

@@ -4,108 +4,156 @@
 <head>
     <meta charset="UTF-8">
     <title>UNAPATHY MOVEMENT - About</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="../libraries/p5.min.js"></script>
+    <script src="../libraries/jquery.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <style>
     body {
-        background-color: magenta;
+        margin: 0;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: magenta;
+        font-family: 'Roboto', sans-serif;
     }
+
     #container {
-        width: 60%;
+        width: 56%;
         margin: 200px auto;
         z-index: 1;
-        font-size: 14pt;
+        font-size: 4vh;
     }
+
     #container div {
         margin-top: 1.5em;
     }
+
     .thanks {
-        font-size: 11pt;
+        font-size: 3vh;
     }
-    .p5Canvas{
+
+    .p5Canvas {
         z-index: -1;
         position: absolute;
-        top:0;
+        top: 0;
     }
 </style>
 
 <body>
+    <div id='aboutContainer'><a id='aboutBtn' href='./about.html'>about</a></div>
     <div id='container'>
-        <div><b><i>UN_APATHY MOVEMENT</i> is a call to move!</b></div>
+        <div><b>UN_APATHY MOVEMENT is a call to move!</b></div>
         <div>
-            This project is aiming for those who feel sometimes overwhelmed by the world around them . As volatility,
-            uncertainty, complexity and ambiguity are rising, and affecting our daily motivation to stay active, pushing
-            us
-            towards apathetic behavior, which is expressed by moments of passivity during our daily interaction with
-            computers. A work session of 3 hours in front of the screen is stretched and drawn into a 4-5 hours of
-            screen
-            time, as we check out our Facebook profile, watch a short Youtube, refresh the news or even move on to watch
-            a
-            full episode or two on Netflix. Is that what you aim to do with your leisure?
+            This project is aiming for those who feel sometimes overwhelmed
+            by the world around them. As volatility, uncertainty, complexity
+            and ambiguity are rising, and affecting our daily motivation to
+            stay active, pushing us towards apathetic behavior, which is
+            expressed by moments of passivity during our daily interaction
+            with computers.
+            A work session of 3 hours in front of the screen is stretched
+            and drawn into a 4-5 hours of screen time, as we check out our
+            Facebook profile, watch a short Youtube, refresh the news or even
+            move on to watch a full episode or two on Netflix. Is that what you
+            aim to do with your leisure?
         </div>
         <div>
-            Media and technology conglomerates are designing means of hooking our passive behavior and feed us with more
-            content. <i>UN_APATHY MOVEMENT</i> is a tool for self reflection, aiming to untie these automated hooks, and
-            allowing
-            us to make sober decision of what to do with our spare time.
+            Media and technology conglomerates are designing means of
+            hooking our passive behavior and feed us with more content. UN_
+            APATHY MOVEMENT is a tool for self reflection, aiming to untie
+            these automated hooks, and allowing us to make sober decision
+            of what to do with our spare time.
         </div>
         <div>
             <b>How does it work?</b>
         </div>
         <div>
-            The tool is composed out of two actions: recognition and activation.
-            The recognition console is tracking your body, head and gaze movement using your webcam, evaluating your
-            screen
-            time and counting your passive moments.
+            The tool is composed out of two actions: recognition and
+            activation.
+            The recognition console is tracking your body, head and gaze
+            movement using your webcam, evaluating your screen time and
+            counting your passive moments.
         </div>
         <div>
-            As your apathy-bar reach 45 minutes of passive moments, the second action appears: It ia a call for a play.
-            You
-            are invited to learn how to juggle with 3 balls, to Hula Hoop or to slackline. Each of the activities can be
-            learned step by step. Every 45 Minutes of full apathy bar, you should move and practice as much as you need
-            to
-            in order to feel reactivated. The apathy-bar restarts.
+            As your apathy-bar reach 45 minutes of passive moments, the
+            second action appears: It ia a call for a play. You are invited to
+            learn how to juggle with 3 balls, to Hula Hoop or to slackline. Each
+            of the activities can be learned step by step. Every 45 Minutes of
+            full apathy bar, you should move and practice as much as you
+            need to in order to feel reactivated. The apathy-bar restarts.
         </div>
         <div>
             <b>Physical movement_Mental Movement</b>
         </div>
         <div>
-            <i>UN_APATHY MOVEMENT</i> is utilizing our body learning mechanisms in order to increase general self efficacy,
-            decreasing apathetic behavior.
-            Studies point out a two way channel between body and brain regarding physical activity and mood. It is
-            studies
-            that playful Physical activity that combines the moderate acquisition of a skill is particularly effective
-            in
-            increasing general self-efficacy and thus enabling us to return to action.
+            UN_APATHY MOVEMENT is utilizing our body learning
+            mechanisms in order to increase general self efficacy, decreasing
+            apathetic behavior.
+            Studies point out a two way channel between body and brain
+            regarding physical activity and mood. It is studies that playful
+            Physical activity that combines the moderate acquisition of a skill
+            is particularly effective in increasing general self-efficacy and thus
+            enabling us to return to action.
         </div>
         <div class='thanks'>
-            <b>A project by <a href='http://www.biliregev.com/'>Bili Regev</a></b>
+            <b>A project by Bili Regev</b>
         </div>
         <div class='thanks'>
-            Mentored by <b>Saron paz</b>
+            Mentored by <b>Saron paz</b><br />
             Coded by <b>Orr Kislev and Tzvika Markfeld</b>
         </div>
-        <div class='thanks'> 
-            Special Thanks to:
+        <div class='thanks'>
+            Special Thanks to:<br />
             <b>Eldad Prywes, Aya Bentur, Mickael Wiesengrun, Tom Reznikov, Naomi Slaney, Tal Nissim, Ben Lev</b>
         </div>
     </div>
 
-    <script src="./plotting.js"></script>
     <script>
-        function setup(){
-            createCanvas(500,100)
+        let gutter
+        const letters = ['M', 'O', 'V', 'E', 'M', 'E', 'N', 'T']
+        let letterPlaces = Array(letters.length).fill(0)
+
+        function drawLogo() {
+            noStroke()
+            fill(0)
+            textAlign(LEFT, TOP);
+            textSize(26)
+            textStyle(BOLD);
+            text('UN_APATHY', gutter, gutter)
+            if (frameCount % 30 == 0) changeLogo()
+            letters.forEach((letter, index) => {
+                text(letter, letterPlaces[index].x, letterPlaces[index].y)
+            })
         }
-        function draw(){
-            background(255,0,255)
-            drawLogo()
+
+        function changeLogo() {
+            const sw = textWidth('UN_APATHY    ')
+            const lw = textWidth('M')
+            for (let i = 0; i < letterPlaces.length; i++) {
+                letterPlaces[i] = createVector(gutter + sw + i * lw + random(-5, 5), gutter + random(-10, 20))
+            }
+        }
+
+        function setup() {
+            createCanvas(500, 200)
             cursor(HAND)
+            gutter = window.innerWidth * 0.045
+            $("#aboutContainer").css('top', gutter - 3)
         }
-        function mousePressed(){
-            
-            window.location.href = "./index.html";
+        let isOnLogo
+        function draw() {
+            background(255)
+            drawLogo()
+            isOnLogo = (mouseX > gutter &&
+                        mouseX < gutter + textWidth('UN_APATHY    MOVEMENT') + 10 &&
+                        mouseY > gutter &&
+                        mouseY < gutter + 30)
+            cursor(isOnLogo ? HAND : ARROW)
+        }
+
+        function mousePressed() {
+            if (isOnLogo)
+                window.location.href = "./index.html";
         }
     </script>
 </body>

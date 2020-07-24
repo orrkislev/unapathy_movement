@@ -7,6 +7,7 @@ let ALIGN_TOP_SCALE = 0.2
 let gutter
 let plotCaptureScale, plotCaptureX,plotCaptureY
 let plotGraphY_movement, plotGraphY_face, plotGraphY_gaze
+let plotTotalsY
 
 function initPlot() {
 	gutter = width * GUTTER_SCALE
@@ -20,6 +21,8 @@ function initPlot() {
 		plotGraphY_movement = plotCaptureY
 		plotGraphY_face = plotCaptureY + gutter + 50
 		plotGraphY_gaze = plotCaptureY + (gutter + 50) * 2
+
+		plotTotalsY = plotTotalsY + plotCaptureHeight
 	}
 	$("#aboutContainer").css('top',gutter-3)
 }
@@ -121,8 +124,8 @@ function plotTexts() {
 	textStyle(BOLD);
 	textAlign(LEFT, BASELINE);
 	onlyFill()
-	text(screenString, gutter, height-gutter-30)
-	text(passiveString, gutter, height-gutter)
+	text(screenString, gutter, plotTotalsY-30)
+	text(passiveString, gutter, plotTotalsY)
 }
 
 let gazePlotPointSize = 15
