@@ -54,11 +54,10 @@ function updateMovement() {
     if (flow.flow) {
       const rawMotion = constrain(round(sqrt(pow(flow.flow.u, 2) + pow(flow.flow.v, 2)) / step * 100 * 5), 0, 100);
       avgMovement = MOVEMENT_SPEED_SOOTHING * avgMovement + (1.0 - MOVEMENT_SPEED_SOOTHING) * rawMotion;
-      // movementMaxSpeed = Math.max(movementMaxSpeed, avgMovement)
+      movementMaxSpeed = Math.max(movementMaxSpeed, avgMovement)
       movementPoints.push(avgMovement)
-      if (movementPoints.length > graphPlotLength) movementPoints.shift()
-      // if (movementPoints.length > 30*15) movementPoints.shift()
-      movementMidLine = (movementMidLine * frameRate() * 15 + avgMovement) / (frameRate() * 15+1)
+      // if (movementPoints.length > graphPlotLength) movementPoints.shift()
+      if (movementPoints.length > 30*15) movementPoints.shift()
     }
   }
 }

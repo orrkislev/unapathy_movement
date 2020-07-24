@@ -56,12 +56,11 @@ function updateGazeAndNose() {
 		if (xprediction != prevXprediction || yprediction != prevYprediction) {
 			const gazeSpeed = dist(prevXprediction, prevYprediction, xprediction, yprediction)	
 			avgGazeSpeed = GAZE_SPEED_SOOTHING * avgGazeSpeed + (1.0 - GAZE_SPEED_SOOTHING) * gazeSpeed
-			// if (gazePoints.length>10)
-				// gazeMaxSpeed = Math.max(gazeMaxSpeed, avgGazeSpeed)
+			if (gazePoints.length>30)
+				gazeMaxSpeed = Math.max(gazeMaxSpeed, avgGazeSpeed)
 			gazePoints.push(avgGazeSpeed)
-			if (gazePoints.length > graphPlotLength) gazePoints.shift()
-			// if (gazePoints.length > 30*15) gazePoints.shift()
-			// gazeMidLine = (gazeMidLine * frameRate() * 15 + avgGazeSpeed) / (frameRate() * 15+1)
+			// if (gazePoints.length > graphPlotLength) gazePoints.shift()
+			if (gazePoints.length > 30*15) gazePoints.shift()
 		}
 		prevXprediction = xprediction;
 		prevYprediction = yprediction;

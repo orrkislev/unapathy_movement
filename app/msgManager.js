@@ -38,7 +38,7 @@ function startPlottingMessage() {
 function passiveTooLong() {
     $('#msg').css('font-weight', '300')
     showMsg({
-        text: "You have been apathetic for 45 min!<br/>Now, take a moment to practice <span id='startVideoBtn' class='button'>3 ball juggling</span><br/>Hula hoop or Slakeline (in the future).",
+        text: "<b>You have been apathetic for 45 min!</b><br/><b>Now, take a moment to practice </b><span id='startVideoBtn' class='button'><b>3 ball juggling</b></span><br/>Hula hoop or Slakeline (in the future).",
         black: true
     })
     $('#startVideoBtn').on('click', () => {

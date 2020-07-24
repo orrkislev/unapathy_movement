@@ -95,12 +95,12 @@ function changeLogo() {
 	}
 }
 
-function plotGraph(graphY, graphPoints, txt, threshold, maxValue) {
+function plotGraph(graphY, graphPoints, txt, threshold, maxVal) {
 	const plotSize = (plotSmall) ? createVector(width * 0.8, height * 0.1) : createVector(width * 0.25, height * 0.1)
 	// const maxVal = Math.max(...graphPoints.slice(graphPoints.length-graphPlotLength,graphPoints.length))
-	const maxVal = Math.max(...graphPoints)
-	// const sum = graphPoints.reduce((a, b) => a + b, 0);
-	// const avg = (sum / graphPoints.length) || 0;
+	// const maxVal = Math.max(...graphPoints)
+	const sum = graphPoints.reduce((a, b) => a + b, 0);
+	const avg = (sum / graphPoints.length) || 0;
 	textSize(18)
 	textStyle(NORMAL);
 	textAlign(LEFT, BASELINE);
@@ -108,18 +108,18 @@ function plotGraph(graphY, graphPoints, txt, threshold, maxValue) {
 	text(txt, gutter, graphY - 2)
 	onlyStroke()
 	rect(gutter, graphY, plotSize.x, plotSize.y)
-	// dottedLine(gutter, plotSize.x, graphY + plotSize.y * (1 - avg / maxVal))
+	dottedLine(gutter, plotSize.x, graphY + plotSize.y * (1 - avg / maxVal))
 	beginShape()
-	// for (i=0;i<graphPlotLength;i++){
-	// 	const x = gutter + plotSize.x * (i / (graphPlotLength - 1))
-	// 	const y = graphY + plotSize.y * (1 - graphPoints[graphPoints.length - graphPlotLength + i] / maxVal)
-	// 	curveVertex(x, y)
-	// }
-	graphPoints.forEach((graphPoint, index) => {
-		const x = gutter + plotSize.x * (index / (graphPlotLength - 1))
-		const y = graphY + plotSize.y * (1 - graphPoint / maxVal)
+	for (i=0;i<graphPlotLength;i++){
+		const x = gutter + plotSize.x * (i / (graphPlotLength - 1))
+		const y = graphY + plotSize.y * (1 - graphPoints[graphPoints.length - graphPlotLength + i] / maxVal)
 		curveVertex(x, y)
-	})
+	}
+	// graphPoints.forEach((graphPoint, index) => {
+	// 	const x = gutter + plotSize.x * (index / (graphPlotLength - 1))
+	// 	const y = graphY + plotSize.y * (1 - graphPoint / maxVal)
+	// 	curveVertex(x, y)
+	// })
 	endShape()
 }
 
