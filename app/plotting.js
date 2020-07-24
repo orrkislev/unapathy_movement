@@ -1,4 +1,4 @@
-let graphPlotLength = 30
+let graphPlotLength = 100
 let RESPONSIVE_SMALL = 570
 let GUTTER_SCALE = 0.045
 let PLOT_CAPTURE_SCALE = 0.45
@@ -21,6 +21,7 @@ function initPlot() {
 		plotGraphY_face = plotCaptureY + gutter + 50
 		plotGraphY_gaze = plotCaptureY + (gutter + 50) * 2
 	}
+	$("#aboutContainer").css('top',gutter-3)
 }
 
 let plotSmall = false
@@ -30,14 +31,27 @@ function windowResized() {
 	initPlot()
 }
 
+
+let followMePos, followMeTarget
+function plotFollowMe(){
+	if (!followMePos) {
+		followMePos = createVector(random(0,width), random(0,height))
+		followMeTarget = createVector(random(0,width), random(0,height))
+	}
+	followMePos = p5.Vector.lerp(followMePos, followMeTarget, 0.1);
+	if (p5.Vector.dist(followMePos, followMeTarget) < 10)
+		followMeTarget = createVector(random(0,width), random(0,height))
+	onlyFill()
+	text('follow me', followMePos.x,followMePos.y)
+}
+
 let opticalFlow = true
 function plotImage(isDone) {
 	if (!plotSmall) {
 		if (flow.flow) {
 			onlyStroke()
-			const xStart = (isDone) ? gutter : plotCaptureX
 			flow.flow.zones.forEach((zone, index) => {
-				const x = xStart + zone.x * plotCaptureScale
+				const x = plotCaptureX + zone.x * plotCaptureScale
 				const y = plotCaptureY + zone.y * plotCaptureScale
 				line(x, y, x + zone.u * 3, y + zone.v * 3)
 			})
@@ -60,7 +74,7 @@ let letterPlaces = Array(letters.length).fill(0)
 function drawLogo() {
 	noStroke()
 	fill(0)
-	textAlign(LEFT, BASELINE);
+	textAlign(LEFT, TOP);
 	textSize(plotSmall ? 14 : 26)
 	textStyle(BOLD);
 	text('UN_APATHY', gutter, gutter)
@@ -77,8 +91,6 @@ function changeLogo() {
 		letterPlaces[i] = createVector(gutter + sw + i * lw + random(-5, 5), gutter + random(-10, 20))
 	}
 }
-
-
 
 function plotGraph(graphY, graphPoints, txt, threshold, maxVal) {
 	const plotSize = (plotSmall) ? createVector(width * 0.8, height * 0.1) : createVector(width * 0.25, height * 0.1)

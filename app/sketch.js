@@ -18,6 +18,7 @@ function setup() {
 }
 
 let plotting = false // false
+let followMe = false
 let practicing = false // false
 let learning = true // true
 let viewing = false // false
@@ -25,6 +26,16 @@ let done = false
 
 function draw() {
 	background(255)
+
+	// noFill()
+	// stroke(0,60)
+	// for (i=0;i<width;i+=30){
+	// 	line(i,0,i,height)
+	// }
+	// for (i=0;i<height;i+=30){
+	// 	line(0,i,width,i)
+	// }
+
 	updateMovement()
 	const isFacingCamera = updateGazeAndNose()
 
@@ -36,6 +47,9 @@ function draw() {
 			NOSE_APATHY_THRESHOLD = lerp(NOSE_APATHY_THRESHOLD, facePoints[facePoints.length - 1] * 0.8, 0.02)
 		if (movementPoints.length > 0)
 			MOVE_APATHY_THRESHOLD = lerp(MOVE_APATHY_THRESHOLD, movementPoints[movementPoints.length - 1] * 0.8, 0.02)
+	}
+	if (followMe){
+		plotFollowMe()
 	}
 	if (plotting) {
 		plotGazePoint()
@@ -76,7 +90,6 @@ function draw() {
 	drawLogo()
 }
 
-
 function resetTimers() {
 	totalApathyTime += apathyTime
 	totalScreenTime += screenTime
@@ -113,17 +126,19 @@ const youtubeLinks = ['',
 let currVideoIndex
 function startVideo(numBalls) {
 	$("#videoConrainer").show()
+	$('#videoConrainer').css('width',$('#videoPlayer').height()*1.78)
 	videoPlayer = videojs('videoPlayer')
-	videoPlayer.src({
-		type: "video/youtube",
-		src: youtubeLinks[numBalls],
-		youtube: {
-			"ytControls": 2,
-			"modestbranding": "1",
-			"fs": "0",
-			"showinfo": "0"
-		}
-	})
+	if (numBalls>1)
+		videoPlayer.src({
+			type: "video/youtube",
+			src: youtubeLinks[numBalls],
+			youtube: {
+				"ytControls": 2,
+				"modestbranding": "1",
+				"fs": "0",
+				"showinfo": "0"
+			}
+		})
 	videoPlayer.currentTime(0);
 	videoPlayer.play()
 	currVideoIndex = numBalls
@@ -136,4 +151,14 @@ function stopVideo(){
 	viewing = false
 	$("#videoConrainer").hide()
 	endVideoMessage(currVideoIndex)
+}
+
+function startFollowMe(){
+	followMe = true
+	setTimeout(()=>{
+		followMe = false
+		resetTimers()
+        startPlotting()
+        startPlottingMessage();
+	},10000)
 }

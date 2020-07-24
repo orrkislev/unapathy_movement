@@ -19,9 +19,7 @@ function calibrationMessage1() {
         },
         btn2Click: () => {
             // hideCalibrationButtons();
-            resetTimers()
-            startPlotting()
-            startPlottingMessage();
+            startFollowMe()
         }
     })
 }
@@ -100,7 +98,7 @@ function donePracticeMessage() {
             flattenApathyLevelMessage()
         },
         btn2Click:()=>{
-            done = true
+            reflectMessage()
         }
     })
 }
@@ -116,10 +114,30 @@ function flattenApathyLevelMessage(){
             startPlotting()
         },
         btn2Click:()=>{
-            done = true
+            reflectMessage()
         },
         black:true
     })
+}
+
+function parseTime(t){
+    const seconds = int(t)
+    if (seconds<120) return parseInt(t)+" seconds"
+    const minutes = Math.floor(seconds/60)%60
+    if (minuts<60) return parseInt(minutes) +" minutes"
+    const hours = Math.floor(minutes/60)%60
+    return parseInt(hours) +" hours and " + parseInt(minutes) +" minutes"
+}
+function reflectMessage(){
+    done = true
+    plotCaptureX = gutter
+    $('#reflectContainer').show()
+    $('#reflectContainer').css('top',plotCaptureY)
+    let html = '<b> Now, Take the time to reflect upon your day...</b><br/><br/>'
+    html += '<b>You have been '+parseTime(totalScreenTime)+' in front of your screee you have been passive for '+parseTime(totalApathyTime)+'</b><br/><br/>'
+    html += 'We are surrounded with volatility, uncertainty, complexity and ambiguity and sometimes, it makes us feel unmotivated and incapable. Whenever you reach <b>apathetic moments<b/> throughout your day, try to remember this feeling of activation and <b>keep practicing</b>.<br/><br/>'
+    html += 'Goodbye.'
+    $('#reflectContainer').html(html)
 }
 
 
@@ -129,27 +147,28 @@ function flattenApathyLevelMessage(){
 function startVideoMessage1() {
     startVideo(1)
     $("#videoTitle").text("Three ball juggling training - level 1 (one ball)")
-    $("#videoBtn1").text('skip to level 2 (two balls)')
-    $("#videoBtn2").on('click', ()=>{
+    $("#videoBtn2").text('skip to level 2 (two balls)')
+    $("#videoBtnText").show()
+    $("#videoBtn1").on('click', ()=>{
         stopVideo()
         startPracticing()
     })
-    $("#videoBtn1").on('click', startVideoMessage2)
+    $("#videoBtn2").on('click', startVideoMessage2)
 }
 
 function startVideoMessage2() {
     startVideo(2)
     $("#videoTitle").text("Three ball juggling training - level 2 (two balls)")
-    $("#videoBtn1").text('skip to level 3 (three balls)')
-    $("#videoBtn1").off('click')
-    $("#videoBtn1").on('click', startVideoMessage3)
+    $("#videoBtn2").text('skip to level 3 (three balls)')
+    $("#videoBtn2").off('click')
+    $("#videoBtn2").on('click', startVideoMessage3)
 }
 
 function startVideoMessage3() {
     startVideo(3)
     $("#videoTitle").text("Three ball juggling training - level 3 (three balls)")
     $("#videoBtnText").hide()
-    $("#videoBtn1").text('')
+    $("#videoBtn2").text('')
 }
 
 

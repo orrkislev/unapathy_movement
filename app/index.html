@@ -53,7 +53,8 @@
 
   <div id='videoConrainer' style='display:none'>
     <div id='videoTitle'></div>
-  <video id="videoPlayer" class="video-js vjs-default-skin" 
+  <!-- vjs-default-skin -->
+  <video id="videoPlayer" class="video-js .vjs-theme-city" 
     preload="auto" 
     controls
     poster=""
@@ -71,13 +72,15 @@
       }]
     }'></video>
     <div id='videoBtns'>
-      <span id='videoBtn1' class='button'></span>
+      <span id='videoBtn1' class='button'>practice now</span>
       <span id='videoBtnText'>or</span>
-      <span id='videoBtn2' class='button'>practice now</span>
+      <span id='videoBtn2' class='button'></span>
     </div>
   </div>
 
   <div id='aboutContainer'><a id='aboutBtn' href='./about.html'>about</a></div>
+
+  <div id='reflectContainer'></div>
 
   <!-- Latest compiled JavaScript -->
   <script src="https://vjs.zencdn.net/7.8.3/video.js"></script>
