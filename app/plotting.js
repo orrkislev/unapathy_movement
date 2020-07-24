@@ -1,6 +1,6 @@
 let graphPlotLength = 100
 let RESPONSIVE_SMALL = 570
-let GUTTER_SCALE = 0.045
+let GUTTER_SCALE = 0.035
 let PLOT_CAPTURE_SCALE = 0.45
 let ALIGN_TOP_SCALE = 0.2
 
@@ -15,7 +15,7 @@ function initPlot() {
 		const plotCaptureWidth = width * PLOT_CAPTURE_SCALE
 		plotCaptureScale = plotCaptureWidth / motionCapture.width
 		const plotCaptureHeight = motionCapture.height * plotCaptureScale
-		plotCaptureX = width - gutter - plotCaptureWidth
+		plotCaptureX = (done) ? gutter : width - gutter - plotCaptureWidth
 		plotCaptureY = height * ALIGN_TOP_SCALE
 
 		plotGraphY_movement = plotCaptureY
@@ -95,9 +95,12 @@ function changeLogo() {
 	}
 }
 
-function plotGraph(graphY, graphPoints, txt, threshold, maxVal) {
+function plotGraph(graphY, graphPoints, txt, threshold, maxValue) {
 	const plotSize = (plotSmall) ? createVector(width * 0.8, height * 0.1) : createVector(width * 0.25, height * 0.1)
-
+	// const maxVal = Math.max(...graphPoints.slice(graphPoints.length-graphPlotLength,graphPoints.length))
+	const maxVal = Math.max(...graphPoints)
+	// const sum = graphPoints.reduce((a, b) => a + b, 0);
+	// const avg = (sum / graphPoints.length) || 0;
 	textSize(18)
 	textStyle(NORMAL);
 	textAlign(LEFT, BASELINE);
@@ -105,8 +108,13 @@ function plotGraph(graphY, graphPoints, txt, threshold, maxVal) {
 	text(txt, gutter, graphY - 2)
 	onlyStroke()
 	rect(gutter, graphY, plotSize.x, plotSize.y)
-	dottedLine(gutter, plotSize.x, graphY + (1 - threshold / maxVal) * plotSize.y)
+	// dottedLine(gutter, plotSize.x, graphY + plotSize.y * (1 - avg / maxVal))
 	beginShape()
+	// for (i=0;i<graphPlotLength;i++){
+	// 	const x = gutter + plotSize.x * (i / (graphPlotLength - 1))
+	// 	const y = graphY + plotSize.y * (1 - graphPoints[graphPoints.length - graphPlotLength + i] / maxVal)
+	// 	curveVertex(x, y)
+	// }
 	graphPoints.forEach((graphPoint, index) => {
 		const x = gutter + plotSize.x * (index / (graphPlotLength - 1))
 		const y = graphY + plotSize.y * (1 - graphPoint / maxVal)

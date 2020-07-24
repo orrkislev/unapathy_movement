@@ -23,9 +23,7 @@ function webgazerSetup() {
 		.showFaceOverlay(false)
 		.showFaceFeedbackBox(false)
 		.setGazeListener((data, elapsedTime) => {
-			if (data == null) {
-				return;
-			}
+			if (data == null) return;
 			xprediction = data.x; //these x coordinates are relative to the viewport
 			yprediction = data.y; //these y coordinates are relative to the viewport
 			predictionTstamp = millis();
@@ -37,7 +35,7 @@ function webgazerSetup() {
 function checkIfReady() {
 	console.log('checkIfReady()');
 	if (webgazer.isReady()) {
-		webgazer.clearData();
+		// webgazer.clearData();
 		resetCalibrationPoints();
   		// calibrationMessage1()
 	} else {
@@ -50,6 +48,7 @@ var GAZE_SPEED_SOOTHING = 0.5;
 let gazeMaxSpeed = 0;
 let avgGazeSpeed = 0;
 let gazePoints = []
+let gazeMidLine = 0
 function updateGazeAndNose() {
 	if (xprediction && yprediction) {
 		gazePlotPoint[0] = lerp(gazePlotPoint[0],xprediction,0.3)
@@ -57,10 +56,12 @@ function updateGazeAndNose() {
 		if (xprediction != prevXprediction || yprediction != prevYprediction) {
 			const gazeSpeed = dist(prevXprediction, prevYprediction, xprediction, yprediction)	
 			avgGazeSpeed = GAZE_SPEED_SOOTHING * avgGazeSpeed + (1.0 - GAZE_SPEED_SOOTHING) * gazeSpeed
-			if (gazePoints.length>10)
-				gazeMaxSpeed = Math.max(gazeMaxSpeed, avgGazeSpeed)
+			// if (gazePoints.length>10)
+				// gazeMaxSpeed = Math.max(gazeMaxSpeed, avgGazeSpeed)
 			gazePoints.push(avgGazeSpeed)
-			if (gazePoints.length > graphPlotLength) gazePoints.splice(0, 1)
+			if (gazePoints.length > graphPlotLength) gazePoints.shift()
+			// if (gazePoints.length > 30*15) gazePoints.shift()
+			// gazeMidLine = (gazeMidLine * frameRate() * 15 + avgGazeSpeed) / (frameRate() * 15+1)
 		}
 		prevXprediction = xprediction;
 		prevYprediction = yprediction;
@@ -73,5 +74,5 @@ function updateGazeAndNose() {
 }
 
 function plotGaze() {
-	plotGraph(plotGraphY_gaze,gazePoints,"Eye Gaze:",GAZE_APATHY_THRESHOLD, gazeMaxSpeed)
+	plotGraph(plotGraphY_gaze,gazePoints,"Eye Gaze:",gazeMidLine, gazeMaxSpeed)
 }

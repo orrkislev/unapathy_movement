@@ -40,6 +40,7 @@ var MOVEMENT_SPEED_SOOTHING = 0.9;
 var avgMovement = 0;
 let movementMaxSpeed = 0;
 let movementPoints = []
+let movementMidLine = 0
 function updateMovement() {
   motionCapture.loadPixels();
   if (motionCapture.pixels.length > 0) {
@@ -53,14 +54,16 @@ function updateMovement() {
     if (flow.flow) {
       const rawMotion = constrain(round(sqrt(pow(flow.flow.u, 2) + pow(flow.flow.v, 2)) / step * 100 * 5), 0, 100);
       avgMovement = MOVEMENT_SPEED_SOOTHING * avgMovement + (1.0 - MOVEMENT_SPEED_SOOTHING) * rawMotion;
-      movementMaxSpeed = Math.max(movementMaxSpeed, avgMovement)
+      // movementMaxSpeed = Math.max(movementMaxSpeed, avgMovement)
       movementPoints.push(avgMovement)
-      if (movementPoints.length > graphPlotLength) movementPoints.splice(0, 1)
+      if (movementPoints.length > graphPlotLength) movementPoints.shift()
+      // if (movementPoints.length > 30*15) movementPoints.shift()
+      movementMidLine = (movementMidLine * frameRate() * 15 + avgMovement) / (frameRate() * 15+1)
     }
   }
 }
 
 
 function plotMovement() {
-  plotGraph(plotGraphY_movement,movementPoints,"General Movement:",MOVE_APATHY_THRESHOLD, movementMaxSpeed)
+  plotGraph(plotGraphY_movement,movementPoints,"General Movement:",movementMidLine, movementMaxSpeed)
 }

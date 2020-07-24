@@ -36,12 +36,14 @@ function startPlottingMessage() {
 }
 
 function passiveTooLong() {
+    $('#msg').css('font-weight', '300')
     showMsg({
-        text: "You have been apathetic for 45 min!<br/>Now, take a moment to practice <span id='startVideoBtn' class='button'>3 ball juggling</span>",
+        text: "You have been apathetic for 45 min!<br/>Now, take a moment to practice <span id='startVideoBtn' class='button'>3 ball juggling</span><br/>Hula hoop or Slakeline (in the future).",
         black: true
     })
     $('#startVideoBtn').on('click', () => {
         $('#msg').css('color', 'rgba(255,0,255,1)')
+        $('#msg').css('font-weight', '700')
         hideMsg()
         stopPlotting()
         startVideoMessage1()

@@ -48,7 +48,7 @@ function draw() {
 		if (movementPoints.length > 0)
 			MOVE_APATHY_THRESHOLD = lerp(MOVE_APATHY_THRESHOLD, movementPoints[movementPoints.length - 1] * 0.8, 0.02)
 	}
-	if (followMe){
+	if (followMe) {
 		plotFollowMe()
 	}
 	if (plotting) {
@@ -78,32 +78,34 @@ function draw() {
 		rect(0, height - height * apathyPercentage, width, height * apathyPercentage)
 	}
 	if (viewing) {
-		if (videoPlayer.currentTime() > 20 && videoPlayer.remainingTime() < 1){
+		if (videoPlayer.currentTime() > 20 && videoPlayer.remainingTime() < 1) {
 			stopVideo()
 			endVideoMessage(currVideoIndex)
-		} 
+		}
 	}
 	if (practicing) {
 		practice()
 	}
-	if (done){
+	if (done) {
 		plotImage(true)
 	}
 
 	drawLogo()
+
+	checkMouse()
 }
 
 function resetTimers() {
 	totalApathyTime += apathyTime
 	totalScreenTime += screenTime
 	screenTime = 0;
-	apathyTime = 0; 
+	apathyTime = 0;
 }
 function startPlotting() { plotting = true; initPlot() }
 function stopPlotting() { plotting = false }
 function startPracticing() {
-	practicing = true; 
-	$('#donePractice').show() 
+	practicing = true;
+	$('#donePractice').show()
 	$('#donePracticeBtn').on('click', donePracticeMessage)
 }
 
@@ -127,9 +129,9 @@ const youtubeLinks = ['',
 let currVideoIndex
 function startVideo(numBalls) {
 	$("#videoConrainer").show()
-	$('#videoConrainer').css('width',$('#videoPlayer').height()*1.78)
+	$('#videoConrainer').css('width', $('#videoPlayer').height() * 1.78)
 	videoPlayer = videojs('videoPlayer')
-	if (numBalls>1)
+	if (numBalls > 1)
 		videoPlayer.src({
 			type: "video/youtube",
 			src: youtubeLinks[numBalls],
@@ -146,21 +148,35 @@ function startVideo(numBalls) {
 	viewing = true
 }
 
-function stopVideo(){
-	// videoPlayer.pause()
-	// videoPlayer.currentTime(2)
-	videoPlayer.reset()
+function stopVideo() {
+	videoPlayer.pause()
+	videoPlayer.currentTime(2)
 	viewing = false
 	$("#videoConrainer").hide()
 }
 
-function startFollowMe(){
+function startFollowMe() {
 	followMe = true
-	setTimeout(()=>{
+	setTimeout(() => {
 		followMe = false
 		learning = false
 		resetTimers()
-        startPlotting()
+		startPlotting()
 		startPlottingMessage();
-	},10000)
+	}, 10000)
+}
+
+
+let mouseOnLogo = false
+function checkMouse() {
+	mouseOnLogo = (mouseX > gutter &&
+		mouseX < gutter + textWidth('UN_APATHY    MOVEMENT') + 10 &&
+		mouseY > gutter &&
+		mouseY < gutter + 30)
+	cursor(mouseOnLogo ? HAND : ARROW)
+}
+
+function mousePressed(){
+	if (mouseOnLogo)
+		location.reload()
 }
