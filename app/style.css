@@ -89,7 +89,7 @@ body{
 .button {
     cursor: pointer;
     /* text-decoration: underline; */
-    border-bottom-width: 2px;
+    border-bottom-width: 3px;
     border-bottom-style: solid;
 }
 

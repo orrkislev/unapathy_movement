@@ -8,6 +8,12 @@ let totalScreenTime = 0
 let apathyTime = 0;
 let screenTime = 0
 
+let jugglingSound;
+function preload() {
+	soundFormats('mp3');
+	jugglingSound = loadSound('sound.mp3');
+}
+
 function setup() {
 	Notification.requestPermission();
 	welcomeMessage()
@@ -176,7 +182,7 @@ function checkMouse() {
 	cursor(mouseOnLogo ? HAND : ARROW)
 }
 
-function mousePressed(){
+function mousePressed() {
 	if (mouseOnLogo)
 		location.reload()
 }
