@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>UNAPATHY MOVEMENT - About</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="../libraries/p5.min.js"></script>
+    <script src="../libraries/jquery.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: magenta;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    #container {
+        width: 56%;
+        margin: 200px auto;
+        z-index: 50;
+        font-size: 4vh;
+    }
+
+    #container div {
+        margin-top: 1.5em;
+    }
+
+    .thanks {
+        font-size: 3vh;
+    }
+
+    .p5Canvas {
+        z-index: 40;
+        position: absolute;
+        top: 0;
+    }
+    #aboutContainer{
+        position:absolute;
+        top:80px;
+        right:80px;
+    }
+    #logoContainer{
+        z-index: 30;
+        position:absolute;
+        top:80px;
+        left:80px;
+        color:black;
+        font-size: 1.5em;
+        font-weight: 700;
+    }
+</style>
+
+<body>
+    <div id='aboutContainer'><a id='aboutBtn' href='./about.html'>about</a></div>
+
+    <div id='logoContainer'>UN_APATHY    MOVEMENT</div>
+
+    <div id='msg'>
+        <div id='msgText'>
+            sorry, UN_APATHY MOVEMENT requires Google Chrome Browser.
+        </div>
+      </div>
+
+    <script>
+        let gutter
+        const letters = ['M', 'O', 'V', 'E', 'M', 'E', 'N', 'T']
+        let letterPlaces = Array(letters.length).fill(0)
+
+        function drawLogo() {
+            noStroke()
+            fill(0)
+            textAlign(LEFT, TOP);
+            textSize(26)
+            textStyle(BOLD);
+            text('UN_APATHY', gutter, gutter)
+            if (frameCount % 30 == 0) changeLogo()
+            letters.forEach((letter, index) => {
+                text(letter, letterPlaces[index].x, letterPlaces[index].y)
+            })
+        }
+
+        function changeLogo() {
+            const sw = textWidth('UN_APATHY    ')
+            const lw = textWidth('M')
+            for (let i = 0; i < letterPlaces.length; i++) {
+                letterPlaces[i] = createVector(gutter + sw + i * lw + random(-5, 5), gutter + random(-10, 20))
+            }
+        }
+
+        function setup() {
+            createCanvas(500, 200)
+            cursor(HAND)
+            gutter = window.innerWidth * 0.045
+            $("#aboutContainer").css('top', gutter - 3)
+        }
+        let isOnLogo
+        function draw() {
+            background(255)
+            drawLogo()
+            isOnLogo = (mouseX > gutter &&
+                        mouseX < gutter + textWidth('UN_APATHY    MOVEMENT') + 10 &&
+                        mouseY > gutter &&
+                        mouseY < gutter + 30)
+            cursor(isOnLogo ? HAND : ARROW)
+        }
+
+        function mousePressed() {
+            if (isOnLogo)
+                window.location.href = "./index.html";
+        }
+    </script>
+</body>
+
+</html>

@@ -1,11 +1,11 @@
 let graphPlotLength = 100
-let RESPONSIVE_SMALL = 570
+let RESPONSIVE_SMALL = 1000
 let GUTTER_SCALE = 0.035
 let PLOT_CAPTURE_SCALE = 0.45
 let ALIGN_TOP_SCALE = 0.2
 
 let gutter
-let plotCaptureScale, plotCaptureX,plotCaptureY
+let plotCaptureScale, plotCaptureX, plotCaptureY
 let plotGraphY_movement, plotGraphY_face, plotGraphY_gaze
 let plotTotalsY
 
@@ -18,38 +18,45 @@ function initPlot() {
 		plotCaptureX = (done) ? gutter : width - gutter - plotCaptureWidth
 		plotCaptureY = height * ALIGN_TOP_SCALE
 
-		plotGraphY_movement = plotCaptureY
-		plotGraphY_face = plotCaptureY + gutter + 50
-		plotGraphY_gaze = plotCaptureY + (gutter + 50) * 2
-
-		plotTotalsY = plotCaptureY + plotCaptureHeight
+		if (!plotSmall) {
+			plotGraphY_movement = plotCaptureY
+			plotGraphY_face = plotCaptureY + plotCaptureHeight*0.25
+			plotGraphY_gaze = plotCaptureY + plotCaptureHeight*0.5
+			plotTotalsY = plotCaptureY + plotCaptureHeight
+		} else {
+			plotGraphY_movement = plotCaptureY
+			plotGraphY_face = plotGraphY_movement + height*0.15
+			plotGraphY_gaze = plotGraphY_face + height*0.15
+			plotTotalsY = height-gutter
+		}
 	}
-	$("#aboutContainer").css('top',gutter-3)
+	$("#aboutContainer").css('top', gutter - 3)
 }
 
 let plotSmall = false
 function windowResized() {
 	resizeCanvas(window.innerWidth, window.innerHeight);
 	plotSmall = window.innerWidth < RESPONSIVE_SMALL
+	$("#aboutBtn").css('font-size',plotSmall ? '0.6em' : '1.5em')
 	initPlot()
 }
 
 
 let followMePos, followMeTarget
-function plotFollowMe(){
+function plotFollowMe() {
 	if (!followMePos) {
-		followMePos = createVector(random(0,width), random(0,height))
-		followMeTarget = createVector(random(0,width), random(0,height))
+		followMePos = createVector(random(0, width), random(0, height))
+		followMeTarget = createVector(random(0, width), random(0, height))
 	}
 	followMePos = p5.Vector.lerp(followMePos, followMeTarget, 0.1);
 	if (p5.Vector.dist(followMePos, followMeTarget) < 10)
-		followMeTarget = createVector(random(0,width), random(0,height))
+		followMeTarget = createVector(random(0, width), random(0, height))
 	onlyFill()
-	text('follow me', followMePos.x,followMePos.y)
+	text('follow me', followMePos.x, followMePos.y)
 }
 
 let opticalFlow = true
-function plotImage(isDone) {
+function plotImage() {
 	if (!plotSmall) {
 		if (flow.flow) {
 			onlyStroke()
@@ -105,12 +112,12 @@ function plotGraph(graphY, graphPoints, txt, threshold, maxVal) {
 	textStyle(NORMAL);
 	textAlign(LEFT, BASELINE);
 	onlyFill()
-	text(txt, gutter, graphY - 2)
+	text(txt, gutter, graphY - 5)
 	onlyStroke()
 	rect(gutter, graphY, plotSize.x, plotSize.y)
 	dottedLine(gutter, plotSize.x, graphY + plotSize.y * (1 - avg / maxVal))
 	beginShape()
-	for (i=0;i<graphPlotLength;i++){
+	for (i = 0; i < graphPlotLength; i++) {
 		const x = gutter + plotSize.x * (i / (graphPlotLength - 1))
 		const y = graphY + plotSize.y * (1 - graphPoints[graphPoints.length - graphPlotLength + i] / maxVal)
 		curveVertex(x, y)
@@ -125,14 +132,14 @@ function plotGraph(graphY, graphPoints, txt, threshold, maxVal) {
 
 function plotTexts() {
 	let screenString = "Total time in front of screen: "
-	screenString += screenTime > 120 ? str(floor(screenTime / 60)) + " min" : str(floor(screenTime)) + " sec"
+	screenString += totalScreenTime > 120 ? str(floor(totalScreenTime / 60)) + " min" : str(floor(totalScreenTime)) + " sec"
 	let passiveString = "Total passive moments: "
-	passiveString += apathyTime > 120 ? str(floor(apathyTime / 60)) + " min" : str(floor(apathyTime)) + " sec"
+	passiveString += totalApathyTime > 120 ? str(floor(totalApathyTime / 60)) + " min" : str(floor(totalApathyTime)) + " sec"
 	textSize(21)
 	textStyle(BOLD);
 	textAlign(LEFT, BASELINE);
 	onlyFill()
-	text(screenString, gutter, plotTotalsY-30)
+	text(screenString, gutter, plotTotalsY - 30)
 	text(passiveString, gutter, plotTotalsY)
 }
 
@@ -141,4 +148,11 @@ let gazePlotPoint = [-30, -30]
 function plotGazePoint() {
 	onlyFill()
 	circle(gazePlotPoint[0], gazePlotPoint[1], gazePlotPointSize);
+}
+
+function plotApathy() {
+	noStroke()
+	fill(255, 0, 255, 165)
+	const apathyPercentage = apathyTime / (MINUTES_TO_VIDEO * 60)
+	rect(0, height - height * apathyPercentage, width, height * apathyPercentage)
 }

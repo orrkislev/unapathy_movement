@@ -6,7 +6,6 @@ let MINUTES_TO_VIDEO = 0.3
 let totalApathyTime = 0
 let totalScreenTime = 0
 let apathyTime = 0;
-let screenTime = 0
 
 let jugglingSound;
 function preload() {
@@ -33,15 +32,6 @@ let done = false
 function draw() {
 	background(255)
 
-	// noFill()
-	// stroke(0,60)
-	// for (i=0;i<width;i+=30){
-	// 	line(i,0,i,height)
-	// }
-	// for (i=0;i<height;i+=30){
-	// 	line(0,i,width,i)
-	// }
-
 	updateMovement()
 	const isFacingCamera = updateGazeAndNose()
 
@@ -54,9 +44,9 @@ function draw() {
 		if (movementPoints.length > 0)
 			MOVE_APATHY_THRESHOLD = lerp(MOVE_APATHY_THRESHOLD, movementPoints[movementPoints.length - 1] * 0.8, 0.02)
 	}
-	if (followMe) {
-		plotFollowMe()
-	}
+
+	if (followMe) plotFollowMe()
+
 	if (plotting) {
 		plotGazePoint()
 		plotImage()
@@ -70,18 +60,16 @@ function draw() {
 					facePoints[facePoints.length - 1] < NOSE_APATHY_THRESHOLD &&
 					movementPoints[movementPoints.length - 1] < MOVE_APATHY_THRESHOLD) {
 					apathyTime += deltaTime / 1000
+					totalApathyTime += deltaTime / 1000
 					if (apathyTime > MINUTES_TO_VIDEO * 60) {
 						new Notification('You are passive', { body: 'see what you can do' });
 						passiveTooLong()
 					}
 				}
 			}
-			screenTime += deltaTime / 1000
+			totalScreenTime += deltaTime / 1000
 		}
-		noStroke()
-		fill(255, 0, 255, 165)
-		const apathyPercentage = apathyTime / (MINUTES_TO_VIDEO * 60)
-		rect(0, height - height * apathyPercentage, width, height * apathyPercentage)
+		plotApathy()
 	}
 	if (viewing) {
 		if (videoPlayer.currentTime() > 20 && videoPlayer.remainingTime() < 1) {
@@ -89,22 +77,14 @@ function draw() {
 			endVideoMessage(currVideoIndex)
 		}
 	}
-	if (practicing) {
-		practice()
-	}
-	if (done) {
-		plotImage(true)
-	}
+	if (practicing) practice()
+	if (done) plotImage()
 
 	drawLogo()
-
 	checkMouse()
 }
 
 function resetTimers() {
-	totalApathyTime += apathyTime
-	totalScreenTime += screenTime
-	screenTime = 0;
 	apathyTime = 0;
 }
 function startPlotting() { plotting = true; initPlot() }
