@@ -44,7 +44,7 @@ function checkIfReady() {
 }
 
 
-var GAZE_SPEED_SOOTHING = 0.5;
+var GAZE_SPEED_SOOTHING = 0.7;
 let gazeMaxSpeed = 0;
 let avgGazeSpeed = 0;
 let gazePoints = []

@@ -37,7 +37,7 @@ let plotSmall = false
 function windowResized() {
 	resizeCanvas(window.innerWidth, window.innerHeight);
 	plotSmall = window.innerWidth < RESPONSIVE_SMALL
-	$("#aboutBtn").css('font-size',plotSmall ? '0.6em' : '1.5em')
+	// $("#aboutBtn").css('font-size',plotSmall ? '0.6em' : '1.5em')
 	initPlot()
 }
 
@@ -85,7 +85,8 @@ function drawLogo() {
 	noStroke()
 	fill(0)
 	textAlign(LEFT, TOP);
-	textSize(plotSmall ? 14 : 26)
+	// textSize(plotSmall ? 14 : 26)
+	textSize(26)
 	textStyle(BOLD);
 	text('UN_APATHY', gutter, gutter)
 	if (frameCount % 30 == 0) changeLogo()
