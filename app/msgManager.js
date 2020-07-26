@@ -88,33 +88,19 @@ function practiceMessage() {
     })
 }
 
-function donePracticeMessage() {
-    showMsg({
-        btn1: 'continue working',
-        btnText: ' or ',
-        btn2: 'go home',
-        btn1Click:()=>{
-            resetTimers()
-            startPlotting()
-            flattenApathyLevelMessage()
-        },
-        btn2Click:()=>{
-            reflectMessage()
-        }
-    })
-}
-
-function flattenApathyLevelMessage(){
+function donePracticeMessage(){
+    resetTimers()
+    startPlotting()
     showMsg({
         text:'Great! You pushed apathy away.',
         btn1: 'continue working',
         btnText: ' or ',
         btn2: 'go home',
         btn1Click:()=>{
-            resetTimers()
-            startPlotting()
+            
         },
         btn2Click:()=>{
+            stopPlotting()
             reflectMessage()
         },
         black:true
