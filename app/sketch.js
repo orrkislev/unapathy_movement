@@ -149,7 +149,7 @@ function startFollowMe() {
 		resetTimers()
 		startPlotting()
 		startPlottingMessage();
-	}, 10000)
+	}, 15000)
 }
 
 

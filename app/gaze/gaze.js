@@ -47,7 +47,7 @@ function checkIfReady() {
 var GAZE_SPEED_SOOTHING = 0.7;
 let gazeMaxSpeed = 0;
 let avgGazeSpeed = 0;
-let gazePoints = []
+let gazePoints = [0]
 let gazeMidLine = 0
 function updateGazeAndNose() {
 	if (xprediction && yprediction) {
@@ -68,6 +68,10 @@ function updateGazeAndNose() {
 			updateNose(webgazer.getTracker().getPositions()[1])
 		xprediction = null
 		return true
+	} else {
+		gazePoints.push(gazePoints[gazePoints.length-1])
+		if (gazePoints.length > 30*15) gazePoints.shift()
+		updateNose(null)
 	}
 	return false
 }

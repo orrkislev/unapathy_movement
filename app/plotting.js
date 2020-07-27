@@ -49,7 +49,7 @@ function plotFollowMe() {
 		followMeTarget = createVector(random(0, width), random(0, height))
 	}
 	followMePos = p5.Vector.lerp(followMePos, followMeTarget, 0.1);
-	if (p5.Vector.dist(followMePos, followMeTarget) < 10)
+	if (p5.Vector.dist(followMePos, followMeTarget) < 20)
 		followMeTarget = createVector(random(0, width), random(0, height))
 	onlyFill()
 	text('follow me', followMePos.x, followMePos.y)

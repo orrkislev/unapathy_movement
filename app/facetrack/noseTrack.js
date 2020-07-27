@@ -1,24 +1,29 @@
 var NOSE_SPEED_SOOTHING = 0.5;
 let faceMaxSpeed = 0;
 let avgFaceSpeed = 0;
-let facePoints = []
+let facePoints = [0]
 let faceMidLine=0
 let prevNosePosition = null;
 
 function updateNose(nosePosition) {
-  if (nosePosition != prevNosePosition) {
-    if (prevNosePosition) {
-      const noseSpeed = dist(nosePosition[0], nosePosition[1], prevNosePosition[0], prevNosePosition[1])
-      if (typeof (noseSpeed == 'number')) {
-        avgFaceSpeed = NOSE_SPEED_SOOTHING * avgFaceSpeed + (1.0 - NOSE_SPEED_SOOTHING) * noseSpeed
-        if (facePoints.length>30)
-          faceMaxSpeed = Math.max(faceMaxSpeed, avgFaceSpeed)
-        facePoints.push(avgFaceSpeed)
-        // if (facePoints.length > graphPlotLength) facePoints.shift()
-        if (facePoints.length > 30*15) facePoints.shift()
+  if (nosePosition!=null){
+    if (nosePosition != prevNosePosition) {
+      if (prevNosePosition) {
+        const noseSpeed = dist(nosePosition[0], nosePosition[1], prevNosePosition[0], prevNosePosition[1])
+        if (typeof (noseSpeed == 'number')) {
+          avgFaceSpeed = NOSE_SPEED_SOOTHING * avgFaceSpeed + (1.0 - NOSE_SPEED_SOOTHING) * noseSpeed
+          if (facePoints.length>30)
+            faceMaxSpeed = Math.max(faceMaxSpeed, avgFaceSpeed)
+          facePoints.push(avgFaceSpeed)
+          // if (facePoints.length > graphPlotLength) facePoints.shift()
+          if (facePoints.length > 30*15) facePoints.shift()
+        }
       }
+      prevNosePosition = nosePosition;
     }
-    prevNosePosition = nosePosition;
+  } else {
+    facePoints.push(facePoints[facePoints.length-1])
+    if (facePoints.length > 30*15) facePoints.shift()
   }
 }
 
