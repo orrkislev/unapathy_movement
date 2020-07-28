@@ -1,12 +1,13 @@
 const targetRadius = 40;
-let practiceThreshold = 40
+let practiceThreshold = 60
 let practiceTargetHeight = 70
 let offsets = [35,65];
 
 
 function practice() {
     const imagePosX = width/2 - motionCapture.width*plotCaptureScale/2
-    const imagePosY = height-gutter - motionCapture.height*plotCaptureScale
+    // const imagePosY = height-gutter - motionCapture.height*plotCaptureScale
+    const imagePosY = plotCaptureY
     scale(-1, 1)
     image(motionCapture,
         -imagePosX,imagePosY ,

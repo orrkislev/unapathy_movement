@@ -12,15 +12,15 @@ function calibrationMessage1() {
     showMsg({
         text: "Calibrate your eye gaze.<br/>Click on each of the 9 points on the screen<br/>5 times till each goes green. ",
         btn1: 'calibrate now',
-        btnText: ' or ',
-        btn2: 'skip',
+        // btnText: ' or ',
+        // btn2: 'skip',
         btn1Click: () => {
             ShowCalibrationPoint();
         },
-        btn2Click: () => {
+        // btn2Click: () => {
             // hideCalibrationButtons();
-            startFollowMe()
-        }
+            // startFollowMe()
+        // }
     })
 }
 
