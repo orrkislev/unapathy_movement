@@ -67,8 +67,8 @@ function draw() {
 					}
 				}
 			}
-			totalScreenTime += deltaTime / 1000
 		}
+		totalScreenTime += deltaTime / 1000
 		plotApathy()
 	}
 	if (viewing) {
