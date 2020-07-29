@@ -48,19 +48,13 @@ var GAZE_SPEED_SOOTHING = 0.7;
 let gazeMaxSpeed = 0;
 let avgGazeSpeed = 0;
 let gazePoints = [0]
-let gazeMidLine = 0
 function updateGazeAndNose() {
 	if (xprediction && yprediction) {
 		gazePlotPoint[0] = lerp(gazePlotPoint[0],xprediction,0.3)
 		gazePlotPoint[1] = lerp(gazePlotPoint[1],yprediction,0.3)
 		if (xprediction != prevXprediction || yprediction != prevYprediction) {
 			const gazeSpeed = dist(prevXprediction, prevYprediction, xprediction, yprediction)	
-			avgGazeSpeed = GAZE_SPEED_SOOTHING * avgGazeSpeed + (1.0 - GAZE_SPEED_SOOTHING) * gazeSpeed
-			if (gazePoints.length>30)
-				gazeMaxSpeed = Math.max(gazeMaxSpeed, avgGazeSpeed)
-			gazePoints.push(avgGazeSpeed)
-			// if (gazePoints.length > graphPlotLength) gazePoints.shift()
-			if (gazePoints.length > 30*15) gazePoints.shift()
+			gazeGraph.addValue(gazeSpeed)
 		}
 		prevXprediction = xprediction;
 		prevYprediction = yprediction;
@@ -69,13 +63,8 @@ function updateGazeAndNose() {
 		xprediction = null
 		return true
 	} else {
-		gazePoints.push(gazePoints[gazePoints.length-1])
-		if (gazePoints.length > 30*15) gazePoints.shift()
-		updateNose(null)
+		gazeGraph.addEmpty()
+		faceGraph.addEmpty()
 	}
 	return false
-}
-
-function plotGaze() {
-	plotGraph(plotGraphY_gaze,gazePoints,"Eye Gaze:",gazeMidLine, gazeMaxSpeed)
 }

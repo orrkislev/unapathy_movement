@@ -2,6 +2,12 @@ let GAZE_APATHY_THRESHOLD = 0.4
 let NOSE_APATHY_THRESHOLD = 0.5
 let MOVE_APATHY_THRESHOLD = 0.8
 
+
+let moveGraph = new Graph('General Movement',0.8)
+let faceGraph = new Graph('Head Position',0.5)
+let gazeGraph = new Graph('Eye Gaze', 0.7)
+
+
 let MINUTES_TO_VIDEO = 5
 let totalApathyTime = 0
 let totalScreenTime = 0
@@ -37,12 +43,15 @@ function draw() {
 
 	if (learning) {
 		plotGazePoint()
-		if (gazePoints.length > 0)
-			GAZE_APATHY_THRESHOLD = lerp(GAZE_APATHY_THRESHOLD, gazePoints[gazePoints.length - 1] * 0.8, 0.02)
-		if (facePoints.length > 0)
-			NOSE_APATHY_THRESHOLD = lerp(NOSE_APATHY_THRESHOLD, facePoints[facePoints.length - 1] * 0.8, 0.02)
-		if (movementPoints.length > 0)
-			MOVE_APATHY_THRESHOLD = lerp(MOVE_APATHY_THRESHOLD, movementPoints[movementPoints.length - 1] * 0.8, 0.02)
+		// if (gazePoints.length > 0)
+			// GAZE_APATHY_THRESHOLD = lerp(GAZE_APATHY_THRESHOLD, gazePoints[gazePoints.length - 1] * 0.8, 0.02)
+		// if (facePoints.length > 0)
+			// NOSE_APATHY_THRESHOLD = lerp(NOSE_APATHY_THRESHOLD, facePoints[facePoints.length - 1] * 0.8, 0.02)
+		// if (movementPoints.length > 0)
+			// MOVE_APATHY_THRESHOLD = lerp(MOVE_APATHY_THRESHOLD, movementPoints[movementPoints.length - 1] * 0.8, 0.02)
+		moveGraph.learn()
+		faceGraph.learn()
+		gazeGraph.learn()
 	}
 
 	if (followMe) plotFollowMe()
@@ -50,15 +59,22 @@ function draw() {
 	if (plotting) {
 		plotGazePoint()
 		plotImage()
-		plotGaze()
-		plotNose()
-		plotMovement()
+		moveGraph.plot()
+		faceGraph.plot()
+		gazeGraph.plot()
+		// plotGaze()
+		// plotNose()
+		// plotMovement()
 		plotTexts()
-		if (isFacingCamera) {
+		// if (isFacingCamera) {
 			if (apathyTime < MINUTES_TO_VIDEO * 60) {
-				if (gazePoints[gazePoints.length - 1] < GAZE_APATHY_THRESHOLD &&
-					facePoints[facePoints.length - 1] < NOSE_APATHY_THRESHOLD &&
-					movementPoints[movementPoints.length - 1] < MOVE_APATHY_THRESHOLD) {
+				// if (gazePoints[gazePoints.length - 1] < GAZE_APATHY_THRESHOLD &&
+				// facePoints[facePoints.length - 1] < NOSE_APATHY_THRESHOLD &&
+				// movementPoints[movementPoints.length - 1] < MOVE_APATHY_THRESHOLD) {
+				// if (avgGazeSpeed < GAZE_APATHY_THRESHOLD &&
+				// 	avgFaceSpeed < NOSE_APATHY_THRESHOLD &&
+				// 	avgMovement < MOVE_APATHY_THRESHOLD) {
+				if (moveGraph.isApathy() && faceGraph.isApathy() && gazeGraph.isApathy()){
 					apathyTime += deltaTime / 1000
 					totalApathyTime += deltaTime / 1000
 					if (apathyTime > MINUTES_TO_VIDEO * 60) {
@@ -67,7 +83,7 @@ function draw() {
 					}
 				}
 			}
-		}
+		// }
 		totalScreenTime += deltaTime / 1000
 		plotApathy()
 	}
@@ -143,6 +159,9 @@ function stopVideo() {
 
 function startFollowMe() {
 	followMe = true
+	setTimeout(() => {
+		followMeMove = true
+	}, 2000)
 	setTimeout(() => {
 		followMe = false
 		learning = false

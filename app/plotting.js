@@ -1,4 +1,3 @@
-let graphPlotLength = 100
 let RESPONSIVE_SMALL = 1000
 let GUTTER_SCALE = 0.035
 let PLOT_CAPTURE_SCALE = 0.45
@@ -6,7 +5,6 @@ let ALIGN_TOP_SCALE = 0.2
 
 let gutter
 let plotCaptureScale, plotCaptureX, plotCaptureY
-let plotGraphY_movement, plotGraphY_face, plotGraphY_gaze
 let plotTotalsY
 
 function initPlot() {
@@ -19,15 +17,15 @@ function initPlot() {
 		plotCaptureY = height * ALIGN_TOP_SCALE
 
 		if (!plotSmall) {
-			plotGraphY_movement = plotCaptureY
-			plotGraphY_face = plotCaptureY + plotCaptureHeight*0.25
-			plotGraphY_gaze = plotCaptureY + plotCaptureHeight*0.5
+			moveGraph.plotY = plotCaptureY
+			faceGraph.plotY = plotCaptureY + plotCaptureHeight * 0.25
+			gazeGraph.plotY = plotCaptureY + plotCaptureHeight * 0.5
 			plotTotalsY = plotCaptureY + plotCaptureHeight
 		} else {
-			plotGraphY_movement = plotCaptureY
-			plotGraphY_face = plotGraphY_movement + height*0.15
-			plotGraphY_gaze = plotGraphY_face + height*0.15
-			plotTotalsY = height-gutter
+			moveGraph.plotY = plotCaptureY
+			faceGraph.plotY = plotGraphY_movement + height * 0.15
+			gazeGraph.plotY = plotGraphY_face + height * 0.15
+			plotTotalsY = height - gutter
 		}
 	}
 	$("#aboutContainer").css('top', gutter - 3)
@@ -42,15 +40,17 @@ function windowResized() {
 }
 
 
-let followMePos, followMeTarget
+let followMePos, followMeTarget, followMeMove=false
 function plotFollowMe() {
 	if (!followMePos) {
 		followMePos = createVector(random(0, width), random(0, height))
 		followMeTarget = createVector(random(0, width), random(0, height))
 	}
-	followMePos = p5.Vector.lerp(followMePos, followMeTarget, 0.1);
-	if (p5.Vector.dist(followMePos, followMeTarget) < 20)
-		followMeTarget = createVector(random(0, width), random(0, height))
+	if (followMeMove) {	
+		followMePos = p5.Vector.lerp(followMePos, followMeTarget, 0.1);
+		if (p5.Vector.dist(followMePos, followMeTarget) < 20)
+			followMeTarget = createVector(random(0, width), random(0, height))
+	}
 	onlyFill()
 	text('follow me', followMePos.x, followMePos.y)
 }
@@ -70,7 +70,6 @@ function plotImage() {
 }
 
 function dottedLine(x, w, y) {
-	onlyStroke()
 	for (let i = 0; i < 30; i++) {
 		const startX = x + i * w / 30
 		const endX = startX + w / 60
@@ -103,12 +102,11 @@ function changeLogo() {
 	}
 }
 
-function plotGraph(graphY, graphPoints, txt, threshold, maxVal) {
+function plotGraph(graphY, graphPoints, txt, maxVal, threshold) {
 	const plotSize = (plotSmall) ? createVector(width * 0.8, height * 0.1) : createVector(width * 0.25, height * 0.1)
-	// const maxVal = Math.max(...graphPoints.slice(graphPoints.length-graphPlotLength,graphPoints.length))
-	// const maxVal = Math.max(...graphPoints)
 	const sum = graphPoints.reduce((a, b) => a + b, 0);
 	const avg = (sum / graphPoints.length) || 0;
+	// maxVal = Math.max(threshold*3, avg*3) /// experimental 
 	textSize(18)
 	textStyle(NORMAL);
 	textAlign(LEFT, BASELINE);
@@ -116,11 +114,17 @@ function plotGraph(graphY, graphPoints, txt, threshold, maxVal) {
 	text(txt, gutter, graphY - 5)
 	onlyStroke()
 	rect(gutter, graphY, plotSize.x, plotSize.y)
-	dottedLine(gutter, plotSize.x, graphY + plotSize.y * (1 - avg / maxVal))
+	onlyStroke()
+	// dottedLine(gutter, plotSize.x, graphY + plotSize.y * (1 - avg / maxVal))
+	line(gutter,graphY + plotSize.y * (1 - avg / maxVal),gutter+plotSize.x,graphY + plotSize.y * (1 - avg / maxVal))
+	stroke(255,0,255,100)
+	dottedLine(gutter, plotSize.x, graphY + plotSize.y * (1 - threshold / maxVal))
+	onlyStroke()
 	beginShape()
 	for (i = 0; i < graphPlotLength; i++) {
 		const x = gutter + plotSize.x * (i / (graphPlotLength - 1))
-		const y = graphY + plotSize.y * (1 - graphPoints[graphPoints.length - graphPlotLength + i] / maxVal)
+		// const y = graphY + plotSize.y * (1 - graphPoints[graphPoints.length - graphPlotLength + i] / maxVal)
+		const y = graphY + plotSize.y * (1 - Math.min(graphPoints[graphPoints.length - graphPlotLength + i],maxVal) / maxVal) // experimental
 		curveVertex(x, y)
 	}
 	// graphPoints.forEach((graphPoint, index) => {
