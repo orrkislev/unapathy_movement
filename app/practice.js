@@ -1,5 +1,5 @@
 const targetRadius = 40;
-let practiceThreshold = 60
+let practiceThreshold = 70
 let practiceTargetHeight = 70
 let offsets = [35,65];
 

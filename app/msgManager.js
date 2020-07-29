@@ -38,7 +38,7 @@ function startPlottingMessage() {
 function passiveTooLong() {
     $('#msg').css('font-weight', '300')
     showMsg({
-        text: "<b>You have been apathetic for 45 min!</b><br/><b>Now, take a moment to practice </b><span id='startVideoBtn' class='button'><b>3 ball juggling</b></span><br/>Hula hoop or Slakeline (in the future).",
+        text: "<b>You have been apathetic for "+parseInt(MINUTES_TO_VIDEO)+" min!</b><br/><b>Now, take a moment to practice </b><span id='startVideoBtn' class='button'><b>3 ball juggling</b></span><br/>Hula hoop or Slakeline (in the future).",
         black: true
     })
     $('#startVideoBtn').on('click', () => {
@@ -111,7 +111,7 @@ function parseTime(t){
     const seconds = int(t)
     if (seconds<120) return parseInt(t)+" seconds"
     const minutes = Math.floor(seconds/60)%60
-    if (minuts<60) return parseInt(minutes) +" minutes"
+    if (minutes<60) return parseInt(minutes) +" minutes"
     const hours = Math.floor(minutes/60)%60
     return parseInt(hours) +" hours and " + parseInt(minutes) +" minutes"
 }

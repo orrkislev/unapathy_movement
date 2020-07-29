@@ -52,7 +52,10 @@ function plotFollowMe() {
 			followMeTarget = createVector(random(0, width), random(0, height))
 	}
 	onlyFill()
+	textAlign(CENTER)
 	text('follow me', followMePos.x, followMePos.y)
+	text('with your', followMePos.x, followMePos.y+30)
+	text('head and gaze', followMePos.x, followMePos.y+60)
 }
 
 let opticalFlow = true

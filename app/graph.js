@@ -35,6 +35,8 @@ class Graph {
     }
     plot() {
         const plotSize = (plotSmall) ? createVector(width * 0.8, height * 0.1) : createVector(width * 0.25, height * 0.1)
+        const avgLineY = this.plotY + plotSize.y * (1 - this.avg / this.maxVal)
+        const thresholdLineY = this.plotY + plotSize.y * (1 - this.threshold / this.maxVal)
         textSize(18)
         textStyle(NORMAL);
         textAlign(LEFT, BASELINE);
@@ -46,10 +48,9 @@ class Graph {
         strokeWeight(1)
         onlyStroke()
         // dottedLine(gutter, plotSize.x, graphY + plotSize.y * (1 - avg / maxVal))
-        line(gutter, this.plotY + plotSize.y * (1 - this.avg / this.maxVal),
-            gutter + plotSize.x, this.plotY + plotSize.y * (1 - this.avg / this.maxVal))
+        line(gutter, avgLineY, gutter + plotSize.x, avgLineY)
         stroke(255, 0, 255, 100)
-        dottedLine(gutter, plotSize.x, this.plotY + plotSize.y * (1 - this.threshold / this.maxVal))
+        dottedLine(gutter, plotSize.x, thresholdLineY)
         onlyStroke()
         beginShape()
         for (let i = 0; i < graphPlotLength; i++) {
@@ -58,5 +59,20 @@ class Graph {
             curveVertex(x, y)
         }
         endShape()
+
+        if (mouseX > gutter && mouseX < gutter + plotSize.x) {
+
+            if (Math.abs(mouseY - avgLineY) < 5) {
+                textAlign(LEFT, BASELINE)
+                textSize(10)
+                onlyFill()
+                text("live average", mouseX + 4, mouseY-4)
+            } else if (Math.abs(mouseY - thresholdLineY) < 5) {
+                textAlign(LEFT, BASELINE)
+                textSize(10)
+                onlyFill()
+                text("calibrated average", mouseX + 4, mouseY-4)
+            }
+        }
     }
 }
