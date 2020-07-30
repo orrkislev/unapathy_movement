@@ -1,17 +1,12 @@
-let GAZE_APATHY_THRESHOLD = 0.8
-let NOSE_APATHY_THRESHOLD = 0.5
-let MOVE_APATHY_THRESHOLD = 0.8
-
-
-let moveGraph = new Graph('General Movement',0.8)
-let faceGraph = new Graph('Head Position',0.5)
-let gazeGraph = new Graph('Eye Gaze', 0.7)
-
-
-let MINUTES_TO_VIDEO = 5
 let totalApathyTime = 0
 let totalScreenTime = 0
 let apathyTime = 0;
+
+let moveGraph = new Graph('General Movement',graph_smooth_move)
+let faceGraph = new Graph('Head Position',graph_smooth_face)
+let gazeGraph = new Graph('Eye Gaze',graph_smooth_gaze)
+
+
 
 let jugglingSound;
 function preload() {
@@ -43,12 +38,7 @@ function draw() {
 
 	if (learning) {
 		plotGazePoint()
-		// if (gazePoints.length > 0)
-			// GAZE_APATHY_THRESHOLD = lerp(GAZE_APATHY_THRESHOLD, gazePoints[gazePoints.length - 1] * 0.8, 0.02)
-		// if (facePoints.length > 0)
-			// NOSE_APATHY_THRESHOLD = lerp(NOSE_APATHY_THRESHOLD, facePoints[facePoints.length - 1] * 0.8, 0.02)
-		// if (movementPoints.length > 0)
-			// MOVE_APATHY_THRESHOLD = lerp(MOVE_APATHY_THRESHOLD, movementPoints[movementPoints.length - 1] * 0.8, 0.02)
+
 		moveGraph.learn()
 		faceGraph.learn()
 		gazeGraph.learn()
@@ -62,18 +52,10 @@ function draw() {
 		moveGraph.plot()
 		faceGraph.plot()
 		gazeGraph.plot()
-		// plotGaze()
-		// plotNose()
-		// plotMovement()
+
 		plotTexts()
-		// if (isFacingCamera) {
 			if (apathyTime < MINUTES_TO_VIDEO * 60) {
-				// if (gazePoints[gazePoints.length - 1] < GAZE_APATHY_THRESHOLD &&
-				// facePoints[facePoints.length - 1] < NOSE_APATHY_THRESHOLD &&
-				// movementPoints[movementPoints.length - 1] < MOVE_APATHY_THRESHOLD) {
-				// if (avgGazeSpeed < GAZE_APATHY_THRESHOLD &&
-				// 	avgFaceSpeed < NOSE_APATHY_THRESHOLD &&
-				// 	avgMovement < MOVE_APATHY_THRESHOLD) {
+
 				if (moveGraph.isApathy() && faceGraph.isApathy() && gazeGraph.isApathy()){
 					apathyTime += deltaTime / 1000
 					totalApathyTime += deltaTime / 1000
@@ -123,11 +105,6 @@ function onlyStroke() {
 }
 
 let videoPlayer
-const youtubeLinks = ['',
-	'https://www.youtube.com/watch?v=Br1isK0b17s',
-	'https://www.youtube.com/watch?v=uaG0xreSyls',
-	'https://www.youtube.com/watch?v=0awTfH62ar8'
-]
 let currVideoIndex
 function startVideo(numBalls) {
 	$("#videoConrainer").show()
@@ -161,14 +138,14 @@ function startFollowMe() {
 	followMe = true
 	setTimeout(() => {
 		followMeMove = true
-	}, 2000)
+	}, follow_me_start_time)
 	setTimeout(() => {
 		followMe = false
 		learning = false
 		resetTimers()
 		startPlotting()
 		startPlottingMessage();
-	}, 15000)
+	}, follow_me_time)
 }
 
 

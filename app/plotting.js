@@ -1,8 +1,3 @@
-let RESPONSIVE_SMALL = 1000
-let GUTTER_SCALE = 0.035
-let PLOT_CAPTURE_SCALE = 0.45
-let ALIGN_TOP_SCALE = 0.2
-
 let gutter
 let plotCaptureScale, plotCaptureX, plotCaptureY
 let plotTotalsY
@@ -35,7 +30,6 @@ let plotSmall = false
 function windowResized() {
 	resizeCanvas(window.innerWidth, window.innerHeight);
 	plotSmall = window.innerWidth < RESPONSIVE_SMALL
-	// $("#aboutBtn").css('font-size',plotSmall ? '0.6em' : '1.5em')
 	initPlot()
 }
 
@@ -43,8 +37,8 @@ function windowResized() {
 let followMePos, followMeTarget, followMeMove=false
 function plotFollowMe() {
 	if (!followMePos) {
-		followMePos = createVector(random(0, width), random(0, height))
-		followMeTarget = createVector(random(0, width), random(0, height))
+		followMePos = createVector(width/2,height/2)
+		followMeTarget = followMePos
 	}
 	if (followMeMove) {	
 		followMePos = p5.Vector.lerp(followMePos, followMeTarget, 0.1);
@@ -53,9 +47,8 @@ function plotFollowMe() {
 	}
 	onlyFill()
 	textAlign(CENTER)
-	text('follow me', followMePos.x, followMePos.y)
-	text('with your', followMePos.x, followMePos.y+30)
-	text('head and gaze', followMePos.x, followMePos.y+60)
+	text(follow_me_text1, followMePos.x, followMePos.y)
+	text(follow_me_text2, width/2+textWidth(follow_me_text1+" "), height/2)
 }
 
 let opticalFlow = true
@@ -87,8 +80,7 @@ function drawLogo() {
 	noStroke()
 	fill(0)
 	textAlign(LEFT, TOP);
-	// textSize(plotSmall ? 14 : 26)
-	textSize(26)
+	textSize(logo_text_size)
 	textStyle(BOLD);
 	text('UN_APATHY', gutter, gutter)
 	if (frameCount % 30 == 0) changeLogo()
@@ -105,45 +97,12 @@ function changeLogo() {
 	}
 }
 
-function plotGraph(graphY, graphPoints, txt, maxVal, threshold) {
-	const plotSize = (plotSmall) ? createVector(width * 0.8, height * 0.1) : createVector(width * 0.25, height * 0.1)
-	const sum = graphPoints.reduce((a, b) => a + b, 0);
-	const avg = (sum / graphPoints.length) || 0;
-	// maxVal = Math.max(threshold*3, avg*3) /// experimental 
-	textSize(18)
-	textStyle(NORMAL);
-	textAlign(LEFT, BASELINE);
-	onlyFill()
-	text(txt, gutter, graphY - 5)
-	onlyStroke()
-	rect(gutter, graphY, plotSize.x, plotSize.y)
-	onlyStroke()
-	// dottedLine(gutter, plotSize.x, graphY + plotSize.y * (1 - avg / maxVal))
-	line(gutter,graphY + plotSize.y * (1 - avg / maxVal),gutter+plotSize.x,graphY + plotSize.y * (1 - avg / maxVal))
-	stroke(255,0,255,100)
-	dottedLine(gutter, plotSize.x, graphY + plotSize.y * (1 - threshold / maxVal))
-	onlyStroke()
-	beginShape()
-	for (i = 0; i < graphPlotLength; i++) {
-		const x = gutter + plotSize.x * (i / (graphPlotLength - 1))
-		// const y = graphY + plotSize.y * (1 - graphPoints[graphPoints.length - graphPlotLength + i] / maxVal)
-		const y = graphY + plotSize.y * (1 - Math.min(graphPoints[graphPoints.length - graphPlotLength + i],maxVal) / maxVal) // experimental
-		curveVertex(x, y)
-	}
-	// graphPoints.forEach((graphPoint, index) => {
-	// 	const x = gutter + plotSize.x * (index / (graphPlotLength - 1))
-	// 	const y = graphY + plotSize.y * (1 - graphPoint / maxVal)
-	// 	curveVertex(x, y)
-	// })
-	endShape()
-}
-
 function plotTexts() {
-	let screenString = "Total time in front of screen: "
+	let screenString = total_time_text
 	screenString += totalScreenTime > 120 ? str(floor(totalScreenTime / 60)) + " min" : str(floor(totalScreenTime)) + " sec"
-	let passiveString = "Total passive moments: "
+	let passiveString = total_time_apathy_text
 	passiveString += totalApathyTime > 120 ? str(floor(totalApathyTime / 60)) + " min" : str(floor(totalApathyTime)) + " sec"
-	textSize(21)
+	textSize(total_text_size)
 	textStyle(BOLD);
 	textAlign(LEFT, BASELINE);
 	onlyFill()
@@ -151,11 +110,11 @@ function plotTexts() {
 	text(passiveString, gutter, plotTotalsY)
 }
 
-let gazePlotPointSize = 15
+
 let gazePlotPoint = [-30, -30]
 function plotGazePoint() {
 	onlyFill()
-	circle(gazePlotPoint[0], gazePlotPoint[1], gazePlotPointSize);
+	circle(gazePlotPoint[0], gazePlotPoint[1], gaze_indicator_size);
 }
 
 function plotApathy() {

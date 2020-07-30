@@ -1,6 +1,3 @@
-let graphPlotLength = 100
-let graphPointsMax = 100
-
 class Graph {
     constructor(_title, _smoothing) {
         this.title = _title
@@ -47,7 +44,6 @@ class Graph {
         rect(gutter, this.plotY, plotSize.x, plotSize.y)
         strokeWeight(1)
         onlyStroke()
-        // dottedLine(gutter, plotSize.x, graphY + plotSize.y * (1 - avg / maxVal))
         line(gutter, avgLineY, gutter + plotSize.x, avgLineY)
         stroke(255, 0, 255, 100)
         dottedLine(gutter, plotSize.x, thresholdLineY)
@@ -61,7 +57,6 @@ class Graph {
         endShape()
 
         if (mouseX > gutter && mouseX < gutter + plotSize.x) {
-
             if (Math.abs(mouseY - avgLineY) < 5) {
                 textAlign(LEFT, BASELINE)
                 textSize(10)
