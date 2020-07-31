@@ -128,33 +128,39 @@ function reflectMessage(){
 
 function startVideoMessage1() {
     startVideo(1)
-    $("#videoTitle").text("Three ball juggling training - level 1 (one ball)")
-    $("#videoBtn2").text('skip to level 2 (two balls)')
-    $("#videoBtnText").show()
-    $("#videoBtn1").on('click', ()=>{
-        stopVideo()
-        startPracticing()
-    })
-    $("#videoBtn2").on('click', startVideoMessage2)
+    $("#videoBtn1").hide()
+    $("#videoBtnComma1").hide()
+    $("#videoBtn2").show()
+    $("#videoBtnComma2").show()
+    $("#videoBtn3").show()
 }
 
 function startVideoMessage2() {
     startVideo(2)
-    $("#videoTitle").text("Three ball juggling training - level 2 (two balls)")
-    $("#videoBtn2").text('skip to level 3 (three balls)')
-    $("#videoBtn2").off('click')
-    $("#videoBtn2").on('click', startVideoMessage3)
+    $("#videoBtn1").show()
+    $("#videoBtnComma1").hide()
+    $("#videoBtn2").hide()
+    $("#videoBtnComma2").show()
+    $("#videoBtn3").show()
 }
 
 function startVideoMessage3() {
     startVideo(3)
-    $("#videoTitle").text("Three ball juggling training - level 3 (three balls)")
-    $("#videoBtnText").hide()
-    $("#videoBtn2").text('')
+    $("#videoBtn1").show()
+    $("#videoBtnComma1").show()
+    $("#videoBtn2").hide()
+    $("#videoBtnComma2").hide()
+    $("#videoBtn3").hide()
 }
 
 
-
+$("#videoBtnPractice").on('click', ()=>{
+    stopVideo()
+    startPracticing()
+})
+$("#videoBtnComma1").on('click', startVideoMessage1)
+$("#videoBtnComma2").on('click', startVideoMessage2)
+$("#videoBtnComma3").on('click', startVideoMessage3)
 
 
 

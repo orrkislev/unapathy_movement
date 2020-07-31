@@ -18,9 +18,9 @@ function practice() {
 
     onlyFill()
 	textAlign(LEFT, BASELINE);
-	textSize(20)
+	textSize(practice_text_size)
 	textStyle(BOLD);
-    text("Move away from the screen, until the dots are in a good position and play!",imagePosX, imagePosY-10)
+    text(practice_text,imagePosX, imagePosY-10)
     offsets.forEach(offset => {
         const posX = motionCapture.width * offset / 100
         if (flow.flow) {

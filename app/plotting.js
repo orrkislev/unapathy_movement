@@ -48,7 +48,7 @@ function plotFollowMe() {
 	onlyFill()
 	textAlign(CENTER)
 	text(follow_me_text1, followMePos.x, followMePos.y)
-	text(follow_me_text2, width/2+textWidth(follow_me_text1+" "), height/2)
+	text(follow_me_text2, width/2+textWidth(follow_me_text1+" ")/2 + textWidth(follow_me_text2+" ")/2, height/2)
 }
 
 let opticalFlow = true

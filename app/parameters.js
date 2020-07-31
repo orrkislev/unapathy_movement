@@ -1,4 +1,4 @@
-let MINUTES_TO_VIDEO = 5
+let MINUTES_TO_VIDEO = 15
 
 let follow_me_time = 15000
 let follow_me_start_time = 2000
@@ -37,3 +37,6 @@ const follow_me_text1 = 'follow me'
 const follow_me_text2 = 'with your head and gaze'
 
 let gaze_indicator_size = 15
+
+const practice_text = "Adjust your body position to fit the practice dots, and play!"
+const practice_text_size = 20
