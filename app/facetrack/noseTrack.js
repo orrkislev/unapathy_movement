@@ -5,7 +5,7 @@ let facePoints = [0]
 let prevNosePosition = null;
 
 function updateNose(nosePosition) {
-  // if (nosePosition!=null){
+  if (nosePosition!=null){
     if (nosePosition != prevNosePosition) {
       if (prevNosePosition) {
         const noseSpeed = dist(nosePosition[0], nosePosition[1], prevNosePosition[0], prevNosePosition[1])
@@ -13,4 +13,5 @@ function updateNose(nosePosition) {
       }
       prevNosePosition = nosePosition;
     }
+  }
 }

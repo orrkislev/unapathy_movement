@@ -49,22 +49,17 @@ let gazeMaxSpeed = 0;
 let avgGazeSpeed = 0;
 let gazePoints = [0]
 function updateGazeAndNose() {
+	let newGaze = null, newFace = null
 	if (xprediction && yprediction) {
 		gazePlotPoint[0] = lerp(gazePlotPoint[0],xprediction,0.3)
 		gazePlotPoint[1] = lerp(gazePlotPoint[1],yprediction,0.3)
-		if (xprediction != prevXprediction || yprediction != prevYprediction) {
-			const gazeSpeed = dist(prevXprediction, prevYprediction, xprediction, yprediction)	
-			gazeGraph.addValue(gazeSpeed)
-		}
+		if (xprediction != prevXprediction || yprediction != prevYprediction)
+			newGaze = dist(prevXprediction, prevYprediction, xprediction, yprediction)	
 		prevXprediction = xprediction;
 		prevYprediction = yprediction;
 		if (webgazer.getTracker().getPositions().length>=2)
-			updateNose(webgazer.getTracker().getPositions()[1])
+			newFace = updateNose(webgazer.getTracker().getPositions()[1])
 		xprediction = null
-		return true
-	} else {
-		gazeGraph.addEmpty()
-		faceGraph.addEmpty()
 	}
-	return false
+	return [newGaze,newFace]
 }

@@ -2,9 +2,9 @@ let totalApathyTime = 0
 let totalScreenTime = 0
 let apathyTime = 0;
 
-let moveGraph = new Graph('General Movement',graph_smooth_move)
-let faceGraph = new Graph('Head Position',graph_smooth_face)
-let gazeGraph = new Graph('Eye Gaze',graph_smooth_gaze)
+let moveGraph = new Graph('General Movement', graph_smooth_move)
+let faceGraph = new Graph('Head Position', graph_smooth_face)
+let gazeGraph = new Graph('Eye Gaze', graph_smooth_gaze)
 
 
 
@@ -23,6 +23,7 @@ function setup() {
 	initPlot()
 }
 
+let savingData = true
 let plotting = false // false
 let followMe = false
 let practicing = false // false
@@ -33,8 +34,14 @@ let done = false
 function draw() {
 	background(255)
 
-	updateMovement()
-	const isFacingCamera = updateGazeAndNose()
+	const newMotion = updateMovement()
+	const [newGaze, newFace] = updateGazeAndNose()
+
+	if (savingData){
+		moveGraph.addValue(newMotion)
+		gazeGraph.addValue(newGaze)
+		updateNose(newFace)
+	}
 
 	if (learning) {
 		plotGazePoint()
@@ -54,18 +61,16 @@ function draw() {
 		gazeGraph.plot()
 
 		plotTexts()
-			if (apathyTime < MINUTES_TO_VIDEO * 60) {
-
-				if (moveGraph.isApathy() && faceGraph.isApathy() && gazeGraph.isApathy()){
-					apathyTime += deltaTime / 1000
-					totalApathyTime += deltaTime / 1000
-					if (apathyTime > MINUTES_TO_VIDEO * 60) {
-						new Notification('You are passive', { body: 'see what you can do' });
-						passiveTooLong()
-					}
+		if (apathyTime < MINUTES_TO_VIDEO * 60) {
+			if (moveGraph.isApathy() && faceGraph.isApathy() && gazeGraph.isApathy()) {
+				apathyTime += deltaTime / 1000
+				totalApathyTime += deltaTime / 1000
+				if (apathyTime > MINUTES_TO_VIDEO * 60) {
+					new Notification('You are passive', { body: 'see what you can do' });
+					passiveTooLong()
 				}
 			}
-		// }
+		}
 		totalScreenTime += deltaTime / 1000
 		plotApathy()
 	}
@@ -85,8 +90,15 @@ function draw() {
 function resetTimers() {
 	apathyTime = 0;
 }
-function startPlotting() { plotting = true; initPlot() }
-function stopPlotting() { plotting = false }
+function startPlotting() { 
+	plotting = true; 
+	initPlot() 
+	savingData = true;
+}
+function stopPlotting() { 
+	plotting = false 
+	savingData = false
+}
 function startPracticing() {
 	practicing = true;
 	$('#donePractice').show()

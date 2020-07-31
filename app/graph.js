@@ -9,16 +9,18 @@ class Graph {
         this.threshold = 0
     }
     addValue(newVal) {
-        const lastVal = this.points[this.points.length - 1]
-        newVal = this.smoothing * lastVal +
-            (1.0 - this.smoothing) * newVal
-        if (this.points.length > 30)
-            this.maxVal = Math.max(this.maxVal, newVal)
-        this.points.push(newVal)
-        if (this.points.length > graphPointsMax) this.points.shift()
+        if (newVal != null) {
+            const lastVal = this.points[this.points.length - 1]
+            newVal = this.smoothing * lastVal +
+                (1.0 - this.smoothing) * newVal
+            if (this.points.length > 30)
+                this.maxVal = Math.max(this.maxVal, newVal)
+            this.points.push(newVal)
+            if (this.points.length > graphPointsMax) this.points.shift()
 
-        const sum = this.points.reduce((a, b) => a + b, 0);
-        this.avg = (sum / this.points.length) || 0;
+            const sum = this.points.reduce((a, b) => a + b, 0);
+            this.avg = (sum / this.points.length) || 0;
+        }
     }
     addEmpty() {
         this.points.push(this.points[this.points.length - 1])
@@ -61,12 +63,12 @@ class Graph {
                 textAlign(LEFT, BASELINE)
                 textSize(10)
                 onlyFill()
-                text("live average", mouseX + 4, mouseY-4)
+                text("live average", mouseX + 4, mouseY - 4)
             } else if (Math.abs(mouseY - thresholdLineY) < 5) {
                 textAlign(LEFT, BASELINE)
                 textSize(10)
                 onlyFill()
-                text("calibrated average", mouseX + 4, mouseY-4)
+                text("calibrated average", mouseX + 4, mouseY - 4)
             }
         }
     }

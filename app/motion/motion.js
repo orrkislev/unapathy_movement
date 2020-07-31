@@ -40,18 +40,17 @@ var avgMovement = 0;
 let movementMaxSpeed = 0;
 let movementPoints = []
 function updateMovement() {
+  let newMotion = null
   motionCapture.loadPixels();
   if (motionCapture.pixels.length > 0) {
     if (previousPixels){
-      if (same(previousPixels, motionCapture.pixels, 8, width)) {
-        return;
-      }
+      if (same(previousPixels, motionCapture.pixels, 8, width))
+        return null;
       flow.calculate(previousPixels, motionCapture.pixels, motionCapture.width, motionCapture.height);
     }
     previousPixels = copyImage(motionCapture.pixels, previousPixels);
-    if (flow.flow) {
-      const rawMotion = constrain(round(sqrt(pow(flow.flow.u, 2) + pow(flow.flow.v, 2)) / step * 100 * 5), 0, 100);
-      moveGraph.addValue(rawMotion)
-    }
+    if (flow.flow)
+      newMotion = constrain(round(sqrt(pow(flow.flow.u, 2) + pow(flow.flow.v, 2)) / step * 100 * 5), 0, 100);
   }
+  return newMotion
 }
