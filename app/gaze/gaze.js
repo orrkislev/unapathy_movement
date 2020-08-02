@@ -44,12 +44,8 @@ function checkIfReady() {
 }
 
 
-var GAZE_SPEED_SOOTHING = 0.7;
-let gazeMaxSpeed = 0;
-let avgGazeSpeed = 0;
-let gazePoints = [0]
 function updateGazeAndNose() {
-	let newGaze = null, newFace = null
+	let newGaze = null, newFacePos = null
 	if (xprediction && yprediction) {
 		gazePlotPoint[0] = lerp(gazePlotPoint[0],xprediction,0.3)
 		gazePlotPoint[1] = lerp(gazePlotPoint[1],yprediction,0.3)
@@ -58,8 +54,8 @@ function updateGazeAndNose() {
 		prevXprediction = xprediction;
 		prevYprediction = yprediction;
 		if (webgazer.getTracker().getPositions().length>=2)
-			newFace = updateNose(webgazer.getTracker().getPositions()[1])
+			newFacePos = webgazer.getTracker().getPositions()[1]
 		xprediction = null
 	}
-	return [newGaze,newFace]
+	return [newGaze,newFacePos]
 }

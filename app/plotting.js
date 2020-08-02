@@ -41,7 +41,7 @@ function plotFollowMe() {
 		followMeTarget = followMePos
 	}
 	if (followMeMove) {	
-		followMePos = p5.Vector.lerp(followMePos, followMeTarget, 0.1);
+		followMePos = p5.Vector.lerp(followMePos, followMeTarget, 0.2);
 		if (p5.Vector.dist(followMePos, followMeTarget) < 20)
 			followMeTarget = createVector(random(0, width), random(0, height))
 	}

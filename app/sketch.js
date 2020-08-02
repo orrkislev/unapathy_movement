@@ -2,9 +2,9 @@ let totalApathyTime = 0
 let totalScreenTime = 0
 let apathyTime = 0;
 
-let moveGraph = new Graph('General Movement', graph_smooth_move)
-let faceGraph = new Graph('Head Position', graph_smooth_face)
-let gazeGraph = new Graph('Eye Gaze', graph_smooth_gaze)
+let moveGraph = new Graph(graph_text_move, graph_smooth_move)
+let faceGraph = new Graph(graph_text_face, graph_smooth_face)
+let gazeGraph = new Graph(graph_text_gaze, graph_smooth_gaze)
 
 
 
@@ -35,12 +35,13 @@ function draw() {
 	background(255)
 
 	const newMotion = updateMovement()
-	const [newGaze, newFace] = updateGazeAndNose()
+	const [newGaze, newFacePos] = updateGazeAndNose()
+	const newFace = updateNose(newFacePos)
 
 	if (savingData){
 		moveGraph.addValue(newMotion)
 		gazeGraph.addValue(newGaze)
-		updateNose(newFace)
+		faceGraph.addValue(newFace)
 	}
 
 	if (learning) {
@@ -68,6 +69,11 @@ function draw() {
 				if (apathyTime > MINUTES_TO_VIDEO * 60) {
 					new Notification('You are passive', { body: 'see what you can do' });
 					passiveTooLong()
+				}
+				if (apathyTime>MINUTES_TO_VIDEO/10){
+					moveGraph.limitMax = true
+					faceGraph.limitMax = true
+					gazeGraph.limitMax = true
 				}
 			}
 		}

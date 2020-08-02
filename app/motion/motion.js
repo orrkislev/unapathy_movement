@@ -35,10 +35,6 @@ function same(a1, a2, stride, n) {
   return true;
 }
 
-var MOVEMENT_SPEED_SOOTHING = 0.9;
-var avgMovement = 0;
-let movementMaxSpeed = 0;
-let movementPoints = []
 function updateMovement() {
   let newMotion = null
   motionCapture.loadPixels();

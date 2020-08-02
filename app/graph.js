@@ -7,24 +7,23 @@ class Graph {
         this.avg = 0
         this.maxVal = 0
         this.threshold = 0
+        this.limitMax = false
     }
     addValue(newVal) {
-        if (newVal != null) {
-            const lastVal = this.points[this.points.length - 1]
-            newVal = this.smoothing * lastVal +
-                (1.0 - this.smoothing) * newVal
-            if (this.points.length > 30)
-                this.maxVal = Math.max(this.maxVal, newVal)
-            this.points.push(newVal)
-            if (this.points.length > graphPointsMax) this.points.shift()
-
-            const sum = this.points.reduce((a, b) => a + b, 0);
-            this.avg = (sum / this.points.length) || 0;
-        }
+        const lastVal = this.points[this.points.length - 1]
+        if (newVal == null) newVal = lastVal
+        newVal = this.smoothing * lastVal + (1.0 - this.smoothing) * newVal
+        if (this.limitMax) newVal = Math.min(newVal, this.maxVal)
+        if (this.points.length > 30)
+            this.maxVal = Math.max(this.maxVal, newVal)
+        this.addToPoints(newVal)
     }
-    addEmpty() {
-        this.points.push(this.points[this.points.length - 1])
+    addToPoints(newVal) {
+        this.points.push(newVal)
         if (this.points.length > graphPointsMax) this.points.shift()
+
+        const sum = this.points.reduce((a, b) => a + b, 0);
+        this.avg = (sum / this.points.length) || 0;
     }
     learn() {
         this.threshold = lerp(this.threshold, this.points[this.points.length - 1] * 0.8, 0.02)

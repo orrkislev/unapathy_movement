@@ -1,6 +1,6 @@
 function welcomeMessage() {
     showMsg({
-        text: "welcome!<br/>please allow the use of your webcam<br/>for analyzing your movement and monitor<br/>your apathy.<br/>",
+        text: "Welcome!<br/>Please allow the use of your webcam<br/>in order to analyze your movement and monitor<br/>your apathy.<br/>",
         btn1: "ok",
         btn1Click: () => {
             calibrationMessage1()
@@ -10,8 +10,8 @@ function welcomeMessage() {
 
 function calibrationMessage1() {
     showMsg({
-        text: "Calibrate your eye gaze.<br/>Click on each of the 9 points on the screen<br/>5 times till each goes green. ",
-        btn1: 'calibrate now',
+        text: "Calibrate your eye gaze.<br/>Click on each of the 9 points on the screen<br/>5 times until they turn green. ",
+        btn1: 'Calibrate now',
         btn1Click: () => {
             ShowCalibrationPoint();
         },
@@ -128,6 +128,7 @@ function reflectMessage(){
 
 function startVideoMessage1() {
     startVideo(1)
+    $("#videoTitle").text("Three ball juggling training - level 1 (one ball)")
     $("#videoBtn1").hide()
     $("#videoBtnComma1").hide()
     $("#videoBtn2").show()
@@ -137,6 +138,7 @@ function startVideoMessage1() {
 
 function startVideoMessage2() {
     startVideo(2)
+    $("#videoTitle").text("Three ball juggling training - level 2 (two balls)")
     $("#videoBtn1").show()
     $("#videoBtnComma1").hide()
     $("#videoBtn2").hide()
@@ -146,6 +148,7 @@ function startVideoMessage2() {
 
 function startVideoMessage3() {
     startVideo(3)
+    $("#videoTitle").text("Three ball juggling training - level 3 (three balls)")
     $("#videoBtn1").show()
     $("#videoBtnComma1").show()
     $("#videoBtn2").hide()

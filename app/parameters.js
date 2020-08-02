@@ -1,6 +1,6 @@
 let MINUTES_TO_VIDEO = 15
 
-let follow_me_time = 15000
+let follow_me_time = 18000
 let follow_me_start_time = 2000
 
 const youtubeLinks = ['',
@@ -16,6 +16,10 @@ let graphPointsMax = 100
 const graph_smooth_move = 0.8
 const graph_smooth_face = 0.5
 const graph_smooth_gaze = 0.7
+
+const graph_text_move = 'General Movement'
+const graph_text_face = 'Head Position'
+const graph_text_gaze = 'Gaze Traffic'
 
 
 let RESPONSIVE_SMALL = 1000
