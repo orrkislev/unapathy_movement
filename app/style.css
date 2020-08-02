@@ -20,6 +20,7 @@ body{
 #aboutBtn{
     color:black;
     text-decoration: none;
+    user-select: none;
 }
 
 /* ----------------------------- VIDEO  */
