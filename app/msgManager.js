@@ -1,6 +1,6 @@
 function welcomeMessage() {
     showMsg({
-        text: "Welcome!<br/>Please allow the use of your webcam<br/>in order to analyze your movement and monitor<br/>your apathy.<br/>",
+        text: "Welcome!<br/>Please allow the use of your webcam in order to analyze your movement and monitor your apathy.<br/>",
         btn1: "ok",
         btn1Click: () => {
             calibrationMessage1()
@@ -10,7 +10,7 @@ function welcomeMessage() {
 
 function calibrationMessage1() {
     showMsg({
-        text: "Calibrate your eye gaze.<br/>Click on each of the 9 points on the screen<br/>5 times until they turn green. ",
+        text: "Calibrate your eye gaze.<br/>Click on each of the 9 points on the screen 5 times until they turn green. ",
         btn1: 'Calibrate now',
         btn1Click: () => {
             ShowCalibrationPoint();
@@ -20,7 +20,7 @@ function calibrationMessage1() {
 
 function startPlottingMessage() {
     showMsg({
-        text: "Now you are ready! Go back to work and let<br/>me monitor your apathy in the background. ",
+        text: "Now you are ready! Go back to work and let me monitor your apathy in the background. ",
         btn1: 'start',
         btn1Click: () => {
             hideMsg()

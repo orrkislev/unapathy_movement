@@ -75,6 +75,7 @@ body{
     z-index: 1000;
     position: fixed;
     align-items: center;
+    width:35%;
     top:50%;
     left:50%;
     transform: translate(-50%,-50%);

@@ -122,4 +122,17 @@ function plotApathy() {
 	fill(255, 0, 255, 165)
 	const apathyPercentage = apathyTime / (MINUTES_TO_VIDEO * 60)
 	rect(0, height - height * apathyPercentage, width, height * apathyPercentage)
+
+	
+	const apathyPercentageText = apathy_level_text +": "+parseInt(apathyPercentage*100)+"%"
+	let textY = height - height * apathyPercentage-10
+	textSize(12)
+	textAlign(RIGHT,BASELINE)
+	onlyFill()
+	if (apathyPercentage>0.9){
+		fill(255)
+		textAlign(RIGHT,TOP)
+		textY = height-height*apathyPercentage+10
+	}
+	text(apathyPercentageText,width/2,textY)
 }

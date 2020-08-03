@@ -44,3 +44,5 @@ let gaze_indicator_size = 15
 
 const practice_text = "Adjust your body position to fit the practice dots, and play!"
 const practice_text_size = 20
+
+const apathy_level_text = "Apathy Level"
