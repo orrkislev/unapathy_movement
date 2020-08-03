@@ -20,7 +20,7 @@ function calibrationMessage1() {
 
 function startPlottingMessage() {
     showMsg({
-        text: "Now you are ready! Go back to work and let me monitor your apathy in the background. ",
+        text: "Now you are ready! <br/> You may hover over the different elements to learn more about the indicator of apathy. <br/> Go back to work and let me monitor your apathy in the background. ",
         btn1: 'start',
         btn1Click: () => {
             hideMsg()

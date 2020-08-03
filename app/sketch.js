@@ -38,7 +38,7 @@ function draw() {
 	const [newGaze, newFacePos] = updateGazeAndNose()
 	const newFace = updateNose(newFacePos)
 
-	if (savingData){
+	if (savingData) {
 		moveGraph.addValue(newMotion)
 		gazeGraph.addValue(newGaze)
 		faceGraph.addValue(newFace)
@@ -70,7 +70,7 @@ function draw() {
 					new Notification('You are passive', { body: 'see what you can do' });
 					passiveTooLong()
 				}
-				if (apathyTime>MINUTES_TO_VIDEO/10){
+				if (apathyTime > MINUTES_TO_VIDEO / 10) {
 					moveGraph.limitMax = true
 					faceGraph.limitMax = true
 					gazeGraph.limitMax = true
@@ -96,13 +96,13 @@ function draw() {
 function resetTimers() {
 	apathyTime = 0;
 }
-function startPlotting() { 
-	plotting = true; 
-	initPlot() 
+function startPlotting() {
+	plotting = true;
+	initPlot()
 	savingData = true;
 }
-function stopPlotting() { 
-	plotting = false 
+function stopPlotting() {
+	plotting = false
 	savingData = false
 }
 function startPracticing() {
@@ -166,14 +166,49 @@ function startFollowMe() {
 	}, follow_me_time)
 }
 
+function skip(){
+	learning=false
+	hideMsg()
+	resetTimers()
+	startPlotting()
+}
+
 
 let mouseOnLogo = false
+let mouseStartHover = 0
+let mouseHover
 function checkMouse() {
-	mouseOnLogo = (mouseX > gutter &&
-		mouseX < gutter + textWidth('UN_APATHY    MOVEMENT') + 10 &&
-		mouseY > gutter &&
-		mouseY < gutter + 30)
+	mouseOnLogo = isMouseBetween(gutter, gutter + textWidth('UN_APATHY    MOVEMENT') + 10, gutter, gutter + 30)
 	cursor(mouseOnLogo ? HAND : ARROW)
+
+	if (plotting) {
+		checkHover(gutter, gutter + graphPlotWidth, plotCaptureY, gazeGraph.plotY + graphPlotHeight, 'graphs')
+		checkHover(gutter, gutter + graphPlotWidth, plotTotalsY-50, plotTotalsY, "totals")
+		const apathyOverlaySize = height * (apathyTime / (MINUTES_TO_VIDEO * 60))
+		checkHover(0, width, height - apathyOverlaySize, height, "apathy")
+	}
+}
+
+function isMouseBetween(x1, x2, y1, y2) {
+	return (x1 < mouseX && mouseX < x2 && y1 < mouseY && mouseY < y2)
+}
+
+function checkHover(x1, x2, y1, y2, name) {
+	if (isMouseBetween(x1, x2, y1, y2)) {
+		if (mouseHover != name) {
+			mouseHover = name
+			mouseStartHover = millis()
+		} else {
+			if (millis() - mouseStartHover > 300) {
+				$("#hover_" + name).show()
+				$("#hover_" + name).css('bottom', height - mouseY - 10)
+				$("#hover_" + name).css('left', mouseX + 10)
+			}
+		}
+	} else if (mouseHover == name) {
+		mouseHover = null
+		$("#hover_" + name).hide()
+	}
 }
 
 function mousePressed() {

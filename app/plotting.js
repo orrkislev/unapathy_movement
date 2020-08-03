@@ -2,6 +2,8 @@ let gutter
 let plotCaptureScale, plotCaptureX, plotCaptureY
 let plotTotalsY
 
+let graphPlotWidth, graphPlotHeight
+
 function initPlot() {
 	gutter = width * GUTTER_SCALE
 	if (motionCapture) {
@@ -11,12 +13,15 @@ function initPlot() {
 		plotCaptureX = (done) ? gutter : width - gutter - plotCaptureWidth
 		plotCaptureY = height * ALIGN_TOP_SCALE
 
+		graphPlotHeight = height*0.1
 		if (!plotSmall) {
+			graphPlotWidth = width * 0.25
 			moveGraph.plotY = plotCaptureY
 			faceGraph.plotY = plotCaptureY + plotCaptureHeight * 0.25
 			gazeGraph.plotY = plotCaptureY + plotCaptureHeight * 0.5
 			plotTotalsY = plotCaptureY + plotCaptureHeight
 		} else {
+			graphPlotWidth = width * 0.8
 			moveGraph.plotY = plotCaptureY
 			faceGraph.plotY = plotGraphY_movement + height * 0.15
 			gazeGraph.plotY = plotGraphY_face + height * 0.15

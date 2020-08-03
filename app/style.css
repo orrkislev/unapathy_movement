@@ -108,3 +108,17 @@ body{
     font-size: 1.5em;
     font-family: 'Roboto', sans-serif;
 }
+
+.hover {
+    width:20vw;
+    padding:5px;
+    color:magenta;
+    font-size: 0.8em;
+    border: solid magenta 1px;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1em;
+    bottom:-100vh;
+    position: fixed;
+    z-index:999;
+    background-color: white;
+}

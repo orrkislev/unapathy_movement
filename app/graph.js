@@ -32,9 +32,8 @@ class Graph {
         return this.avg < this.threshold
     }
     plot() {
-        const plotSize = (plotSmall) ? createVector(width * 0.8, height * 0.1) : createVector(width * 0.25, height * 0.1)
-        const avgLineY = this.plotY + plotSize.y * (1 - this.avg / this.maxVal)
-        const thresholdLineY = this.plotY + plotSize.y * (1 - this.threshold / this.maxVal)
+        const avgLineY = this.plotY + graphPlotHeight * (1 - this.avg / this.maxVal)
+        const thresholdLineY = this.plotY + graphPlotHeight * (1 - this.threshold / this.maxVal)
         textSize(18)
         textStyle(NORMAL);
         textAlign(LEFT, BASELINE);
@@ -42,22 +41,22 @@ class Graph {
         text(this.title, gutter, this.plotY - 5)
         onlyStroke()
         if (this.isApathy()) strokeWeight(3)
-        rect(gutter, this.plotY, plotSize.x, plotSize.y)
+        rect(gutter, this.plotY, graphPlotWidth, graphPlotHeight)
         strokeWeight(1)
         onlyStroke()
-        line(gutter, avgLineY, gutter + plotSize.x, avgLineY)
+        line(gutter, avgLineY, gutter + graphPlotWidth, avgLineY)
         stroke(255, 0, 255, 100)
-        dottedLine(gutter, plotSize.x, thresholdLineY)
+        dottedLine(gutter, graphPlotWidth, thresholdLineY)
         onlyStroke()
         beginShape()
         for (let i = 0; i < graphPlotLength; i++) {
-            const x = gutter + plotSize.x * (i / (graphPlotLength - 1))
-            const y = this.plotY + plotSize.y * (1 - this.points[this.points.length - graphPlotLength + i] / this.maxVal)
+            const x = gutter + graphPlotWidth * (i / (graphPlotLength - 1))
+            const y = this.plotY + graphPlotHeight * (1 - this.points[this.points.length - graphPlotLength + i] / this.maxVal)
             curveVertex(x, y)
         }
         endShape()
 
-        if (mouseX > gutter && mouseX < gutter + plotSize.x) {
+        if (mouseX > gutter && mouseX < gutter + graphPlotWidth) {
             if (Math.abs(mouseY - avgLineY) < 5) {
                 textAlign(LEFT, BASELINE)
                 textSize(10)
