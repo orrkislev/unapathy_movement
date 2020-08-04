@@ -104,6 +104,7 @@ function startPlotting() {
 function stopPlotting() {
 	plotting = false
 	savingData = false
+	hideHovers()
 }
 function startPracticing() {
 	practicing = true;
@@ -185,14 +186,20 @@ function checkMouse() {
 		checkHover(gutter, gutter + graphPlotWidth, plotCaptureY, gazeGraph.plotY + graphPlotHeight, 'graphs')
 		checkHover(gutter, gutter + graphPlotWidth, plotTotalsY-50, plotTotalsY, "totals")
 		const apathyOverlaySize = height * (apathyTime / (MINUTES_TO_VIDEO * 60))
-		checkHover(0, width, height - apathyOverlaySize, height, "apathy")
+		checkHover(width/2-textWidth('Apathy Level: 40%'), width/2, height-apathyOverlaySize-20, height-apathyOverlaySize+20, "apathy")
+		checkHover(plotCaptureX, plotCaptureX+width * PLOT_CAPTURE_SCALE, plotCaptureY, motionCapture.height * plotCaptureScale, "image")
 	}
 }
 
 function isMouseBetween(x1, x2, y1, y2) {
 	return (x1 < mouseX && mouseX < x2 && y1 < mouseY && mouseY < y2)
 }
-
+function hideHovers(){
+	$("#hover_graphs").css('bottom', -height)
+	$("#hover_totals").css('bottom', -height)
+	$("#hover_apathy").css('bottom', -height)
+	$("#hover_image").css('bottom', -height)
+}
 function checkHover(x1, x2, y1, y2, name) {
 	if (isMouseBetween(x1, x2, y1, y2)) {
 		if (mouseHover != name) {

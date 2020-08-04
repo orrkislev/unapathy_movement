@@ -131,7 +131,8 @@ function plotApathy() {
 	
 	const apathyPercentageText = apathy_level_text +": "+parseInt(apathyPercentage*100)+"%"
 	let textY = height - height * apathyPercentage-10
-	textSize(12)
+	textSize(15)
+	textStyle(NORMAL);
 	textAlign(RIGHT,BASELINE)
 	onlyFill()
 	if (apathyPercentage>0.9){

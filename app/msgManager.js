@@ -20,7 +20,7 @@ function calibrationMessage1() {
 
 function startPlottingMessage() {
     showMsg({
-        text: "Now you are ready! <br/> You may hover over the different elements to learn more about the indicator of apathy. <br/> Go back to work and let me monitor your apathy in the background. ",
+        text: "Now you are ready! <br/><br/>  Hover over the different elements to learn more about the indicators of apathy. <br/><br/> Go back to work and let me monitor your apathy in the background.",
         btn1: 'start',
         btn1Click: () => {
             hideMsg()
@@ -129,30 +129,24 @@ function reflectMessage(){
 function startVideoMessage1() {
     startVideo(1)
     $("#videoTitle").text("Three ball juggling training - level 1 (one ball)")
-    $("#videoBtn1").hide()
-    $("#videoBtnComma1").hide()
+    $("#videoBtnText").show()
     $("#videoBtn2").show()
-    $("#videoBtnComma2").show()
-    $("#videoBtn3").show()
+    $("#videoBtn3").hide()
 }
 
 function startVideoMessage2() {
     startVideo(2)
     $("#videoTitle").text("Three ball juggling training - level 2 (two balls)")
-    $("#videoBtn1").show()
-    $("#videoBtnComma1").hide()
+    $("#videoBtnText").show()
     $("#videoBtn2").hide()
-    $("#videoBtnComma2").show()
     $("#videoBtn3").show()
 }
 
 function startVideoMessage3() {
     startVideo(3)
     $("#videoTitle").text("Three ball juggling training - level 3 (three balls)")
-    $("#videoBtn1").show()
-    $("#videoBtnComma1").show()
+    $("#videoBtnText").hide()
     $("#videoBtn2").hide()
-    $("#videoBtnComma2").hide()
     $("#videoBtn3").hide()
 }
 
@@ -161,9 +155,9 @@ $("#videoBtnPractice").on('click', ()=>{
     stopVideo()
     startPracticing()
 })
-$("#videoBtnComma1").on('click', startVideoMessage1)
-$("#videoBtnComma2").on('click', startVideoMessage2)
-$("#videoBtnComma3").on('click', startVideoMessage3)
+$("#videoBtn1").on('click', startVideoMessage1)
+$("#videoBtn2").on('click', startVideoMessage2)
+$("#videoBtn3").on('click', startVideoMessage3)
 
 
 
