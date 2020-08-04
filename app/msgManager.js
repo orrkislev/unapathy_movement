@@ -97,7 +97,8 @@ function donePracticeMessage(){
             stopPlotting()
             reflectMessage()
         },
-        black:true
+        black:true,
+        centered:true,
     })
 }
 
@@ -167,6 +168,7 @@ function hideMsg() {
 }
 
 function showMsg(context) {
+    if (context.centered) $("#msgText").css('text-align','center')
     if (context.black) $('#msg').css('color', 'black')
     $('#msg').show()
     $('#msgText').html(context.text ? context.text : '')
@@ -175,14 +177,17 @@ function showMsg(context) {
     $('#msgBtn2').html(context.btn2 ? context.btn2 : '')
     $('#msgBtn1').off('click')
     $('#msgBtn2').off('click')
-    if (context.btn1Click) $('#msgBtn1').on('click', () => {
+    const whenClick = ()=>{
         if (context.black) $('#msg').css('color', 'rgba(255,0,255,1)')
+        if (context.centered) $("#msgText").css('text-align','left')
         hideMsg()
+    }
+    if (context.btn1Click) $('#msgBtn1').on('click', () => {
+        whenClick()
         context.btn1Click()
     })
     if (context.btn2Click) $('#msgBtn2').on('click', () => {
-        if (context.black) $('#msg').css('color', 'rgba(255,0,255,1)')
-        hideMsg()
+        whenClick()
         context.btn2Click()
     })
 }
